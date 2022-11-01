@@ -32,7 +32,7 @@
 #include "stddef.h"
 #include <time.h>
 #include <stdlib.h>
-#define ORDER 16
+#define ORDER 4
 
 extern unsigned int sbx0[ORDER];
 extern unsigned int sbx1[ORDER];

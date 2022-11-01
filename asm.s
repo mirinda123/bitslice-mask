@@ -1,6 +1,6 @@
 	.syntax unified
 	.cpu cortex-m4
-	.set ORDER, 16
+	.set ORDER, 4
 	.set WIDTHBYTE, 4
 
 	
@@ -17,12 +17,12 @@
 
 .macro matrosecxor xaddr, yaddr, txaddr, tyaddr, traddr, zaddr, temp1, temp2, temp3, kvalue, precomp
 		.if \kvalue == 1
-			LDRH \temp1, [\xaddr]
-			LDRH \temp2, [\yaddr]
+			LDR \temp1, [\xaddr]
+			LDR \temp2, [\yaddr]
 			EOR  \temp1, \temp1, \temp2
 			
 			//zaddr[0] = xaddr[0] xor yaddr[0]
-			STRH \temp1, [\zaddr]
+			STR \temp1, [\zaddr]
 			.exitm
 		.endif
 		.if \kvalue > 1
@@ -32,15 +32,15 @@
 				
 			//temp1 = xaddr[k-1]
 			//temp2 = yaddr[k-1]
-			LDRH \temp1, [\xaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
-			LDRH \temp2, [\yaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			LDR \temp1, [\xaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			LDR \temp2, [\yaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
 			
 			// \temp1 =  xaddr[] xor yaddr[]
 			EOR  \temp1, \temp1, \temp2
 			
 			// STRH R0,[R1]         R0 to [R1]
 			//zaddr[k-1] = xaddr[k-1] xor yaddr[k-1]
-			STRH \temp1, [\zaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			STR \temp1, [\zaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
 		.endif
 .endm
 
@@ -68,31 +68,31 @@
 			MOV \temp1, #0
 			MOV \temp2 ,#0
 			//temp1 = xaddr[0]
-			LDRH \temp1, [\xaddr]
+			LDR \temp1, [\xaddr]
 			// temp2 = yaddr[0]
-			LDRH \temp2, [\yaddr]
+			LDR \temp2, [\yaddr]
 			//temp1 = xaddr[0]
 			AND  \temp1, \temp2
 			
 			// zaddr 是论文中的u
 			//when k == 1
 			// zaddr[0] = xaddr[0]yaddr[0]
-			STRH \temp1, [\zaddr]
+			STR \temp1, [\zaddr]
 			.set ii, 0
 				
 			//如果是order为1，应该会有一个额外的情况
 			//precompute后面后面的那些步骤
 			.if \flag == 1 && \precomp == 1
 				//temp3: 随机数
-				LDRH \temp3, [\randomtableaddr], #2 //random bits
+				LDR \temp3, [\randomtableaddr], #2 //random bits
 				// temp2 = zaddr[ii]即ui
-				LDRH \temp2, [\zaddr,#ii]
+				LDR \temp2, [\zaddr,#ii]
 				//更新z为随机数
-				STRH \temp3, [\zaddr,#ii]
+				STR \temp3, [\zaddr,#ii]
 				// temp2 = r xor zaddr[ii]
 				EOR  \temp2, \temp3
 				// traddr[ii] = r xor  zaddr[ii]
-				STRH \temp2, [\traddr,#ii]
+				STR \temp2, [\traddr,#ii]
 			.endif
 				
 			// exit  macro
@@ -116,8 +116,8 @@
 			MOV \z, #0
 			MOV \x, #0
 			MOV \y, #0
-			LDRH \x, [\oxaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
-			LDRH \y, [\oyaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			LDR \x, [\oxaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			LDR \y, [\oyaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
 			
 			//z : xy
 			//用于第12行
@@ -135,15 +135,15 @@
 				.rept  \kvalue-1
 					//temp3 = r
 					//MOV  \temp3, #1 //random bits
-					LDRH \temp3, [\randomtableaddr], #2 //random bits
+					LDR \temp3, [\randomtableaddr], #2 //random bits
 					// temp2 = zaddr[ii]
-					LDRH \temp2, [\zaddr,#ii]
+					LDR \temp2, [\zaddr,#ii]
 					//更新z为随机数
-					STRH \temp3, [\zaddr,#ii]
+					STR \temp3, [\zaddr,#ii]
 					// temp2 = r xor zaddr[ii]
 					EOR  \temp2, \temp3
 					// traddr[ii] = r xor  zaddr[ii]
-					STRH \temp2, [\traddr,#ii]
+					STR \temp2, [\traddr,#ii]
 					.set ii, ii+1 * WIDTHBYTE
 				.endr
 				
@@ -156,9 +156,9 @@
 				MOV \temp1, #0
 				MOV \temp2, #0
 				//temp1 = xaddr[ii]
-				LDRH \temp1, [\xaddr,#ii]
+				LDR \temp1, [\xaddr,#ii]
 				// temp2 = traddr[ii]
-				LDRH \temp2, [\traddr,#ii]
+				LDR \temp2, [\traddr,#ii]
 				
 				EOR \temp1, \temp2
 				AND \temp1, \y
@@ -168,7 +168,7 @@
 				EOR \temp2, \temp1
 				MVN \y, \y
 				MOV \temp1, #0
-				LDRH \temp1, [\yaddr, #ii]
+				LDR \temp1, [\yaddr, #ii]
 				EOR \temp1, \temp2
 				AND \temp1, \x
 				MVN \x, \x
@@ -195,15 +195,15 @@
 				//这里是不是要多一次
 				.rept  \kvalue
 					//temp3 = r
-					LDRH \temp3, [\randomtableaddr], #2 //random bits
+					LDR \temp3, [\randomtableaddr], #2 //random bits
 					// temp2 = zaddr[ii]
-					LDRH \temp2, [\zaddr,#ii]
+					LDR \temp2, [\zaddr,#ii]
 					//更新z为随机数
-					STRH \temp3, [\zaddr,#ii]
+					STR \temp3, [\zaddr,#ii]
 					// temp2 = r xor zaddr[ii]
 					EOR  \temp2, \temp3
 					// traddr[ii] = r xor  zaddr[ii]
-					STRH \temp2, [\traddr,#ii]
+					STR \temp2, [\traddr,#ii]
 					// ii ++ 
 					.set ii, ii+1 * WIDTHBYTE
 				.endr
