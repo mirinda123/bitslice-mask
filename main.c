@@ -7,10 +7,11 @@ uint8_t dst[16];
 int main(void)
 {
 	// test for unprotected AES
-	
+	sbox_test();
 	AES_CTX ctx = {{0},{0},10};
 	
 	ctx.num_rounds = 10;
+	//setkey是正确的
 	AES_Setkey(&ctx, key, 16);
 	AES_Encrypt(&ctx, key, dst);
 	int a = 0;

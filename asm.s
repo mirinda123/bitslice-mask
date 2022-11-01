@@ -215,11 +215,17 @@
 	
 	
 	
-	
+	.global sbox_test
 	.global sboxprecom
 	.global sboxonline
 	.section .text
 	.align 4
+	
+sbox_test:
+	matrosecandnew_ sbxtest,sbytest,sbxtest, sbytest, sbttest,sband0trtest, ORDER, 1,r12,ORDER
+	matrosecandnew_ online_sbxtest, online_sbytest, sbxtest,sbytest,online_sbttest, sband0trtest, ORDER + 1, 0,r12,ORDER
+	
+	bx lr
 sboxprecom:
 	
 	PUSH {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
@@ -355,14 +361,14 @@ sboxprecom:
 	LDR r6, =sbx2
 	
 	//r0: sbs2
-	LDRH r0, [r6]
+	LDR r0, [r6]
 	
 	// 取反
 	MVN r0,r0
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	//存储
-	STRH r0, [r6]	
+	STR r0, [r6]	
 	matrosecxor_ sbz5, sbz13, sbt48, ORDER, 1
 	matrosecxor_ sbz12, sbt48, sbt56, ORDER, 1
 	//matrosecxor_ sbt53, sbt66, sbs3, ORDER, 1
@@ -371,28 +377,28 @@ sboxprecom:
 	matrosecxor_ sbt64, sbx3, sbx1, ORDER, 1
 	//LDR r6, =sbs1
 	LDR r6, =sbx1
-	LDRH r0, [r6]
+	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	MVN r0,r0
-	STRH r0, [r6]
+	STR r0, [r6]
 	//matrosecxor_ sbt55, sbt62, sbs6, ORDER, 1
 	matrosecxor_ sbt55, sbt62, sbx6, ORDER, 1
 	//LDR r6, =sbs6
 	LDR r6, =sbx6
-	LDRH r0, [r6]
+	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	MVN r0,r0
-	STRH r0, [r6]
+	STR r0, [r6]
 	//matrosecxor_ sbt48, sbt60, sbs7, ORDER, 1
 	matrosecxor_ sbt48, sbt60, sbx7, ORDER, 1
 	LDR r6, =sbx7
-	LDRH r0, [r6]
+	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	MVN r0,r0
-	STRH r0, [r6]
+	STR r0, [r6]
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	bx lr
 	

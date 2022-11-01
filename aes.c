@@ -648,8 +648,10 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 	unsigned u;
 
 	//add_round_key in precompute phase
+	//sbx7存的是q0
+	//sbx6存的是q1
 	add_round_key(0, ORDER, skey,sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-	add_round_key(ORDER, ORDER + 1, skey, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	add_round_key(0, 1, skey, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 	for (u = 1; u < num_rounds; u ++) {
 		//sbox in precompute phase
 		sboxprecom();
@@ -665,13 +667,13 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 		//sbox in online phase
 		sboxonline();
 		//shift_rows in online_phase
-		shift_rows(ORDER, ORDER + 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		//mix_columns in online phase
-		mix_columns(ORDER, ORDER + 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		
-		add_round_key(ORDER, ORDER + 1, skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		add_round_key(0, 1, skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 	}
 	
 	//aes_ct_bitslice_Sbox(q);
@@ -680,8 +682,8 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 	add_round_key(0, ORDER, skey + (num_rounds << 3), sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 	
 	sboxonline();
-	shift_rows(ORDER, ORDER + 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-	add_round_key(ORDER, ORDER + 1, skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	add_round_key(0, 1, skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 }
 
 /*
@@ -835,7 +837,7 @@ void
 randomization(uint32_t* q)
 {
 	
-	//Attention! the random number generation here is vulnerable, just for test!
+	
 		//ORDER + 1 shares
 		uint32_t temp = 0;
 		for(int j = 0;j <ORDER;j++){
@@ -852,6 +854,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
+			//Attention! the random number generation here is vulnerable, just for test!
 			srand(42);   
 			uint32_t r = rand();
 			//sbx6 = q[1]

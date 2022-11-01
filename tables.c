@@ -27,19 +27,20 @@ unsigned int t_second[1];
 unsigned int r[ORDER];
 
 //xtest的3各share异或起来是0x1264
-unsigned int sbxtest[ORDER]={0};
+unsigned int sbxtest[ORDER]={0x4363,0x2325,0x3234,0x1245};
 //ytest的3各share异或起来是0xA6BD
 
-unsigned int sbytest[ORDER]={0};
+unsigned int sbytest[ORDER]={0x536A,0xDFF2,0x442B,0x1122};
 
 //xtest and ytest = 0x224
 unsigned int sbttest[ORDER]={0};
 unsigned int sband0txtest[ORDER]={0};
 unsigned int sband0tytest[ORDER]={0};
 unsigned int sband0tttest[ORDER]={0};
+unsigned int sband0trtest[ORDER] ={0};
 
-unsigned int online_sbxtest[1]={0x772D};
-unsigned int online_sbytest[1]={0x65A9};
+unsigned int online_sbxtest[1]={0x5253};
+unsigned int online_sbytest[1]={0x7F2C};
 unsigned int online_sbttest[1]={0};
 unsigned int test_random_table[1] = {0}; 
 unsigned int random_table[RANDOM_LENGTH]={63312, 36836, 35604, 49307, 20637, 26178, 45314, 37202, 5420, 33957, 5398, 6371, 24992, 56394, 47675, 59440, 20463, 3070, 10435, 34748, 26719, 8279, 6730, 63209, 14599, 33486, 52421, 31587, 44571, 17128, 62514, 55684, 3137, 62752, 37430, 46186, 20428, 27254, 49725, 58643, 16752, 30783, 48410, 41553, 741, 54360, 32789, 30621, 58038, 14492, 52870, 28521, 7150, 55770, 64830, 4533, 20130, 38216, 36253, 39198, 14689, 7451, 45298, 55837, 58346, 18865, 1065, 35025, 16811, 41215, 26544, 60375, 55969, 18728, 4472, 34593, 63750, 34964, 46480, 1159, 41889, 29018, 16841, 24420, 39787, 29247, 9824, 59262, 12623, 33523, 36633, 50715, 35868, 8274, 18832, 37216};
