@@ -27,6 +27,43 @@ Project File Date:  10/31/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Simulation'
+compiling tables.c...
+compiling main.c...
+aes.c(655): warning: implicit declaration of function 'sboxprecom' is invalid in C99 [-Wimplicit-function-declaration]
+                sboxprecom();
+                ^
+aes.c(666): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
+                sboxonline();
+                ^
+aes.c(678): warning: implicit declaration of function 'sboxprecom' is invalid in C99 [-Wimplicit-function-declaration]
+        sboxprecom();
+        ^
+aes.c(682): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
+        sboxonline();
+        ^
+aes.c(810): error: too few arguments to function call, expected 11, have 2
+        add_round_key(q, skey + (num_rounds << 3));
+        ~~~~~~~~~~~~~                            ^
+aes.c(474): note: 'add_round_key' declared here
+add_round_key(int ORDER_start, int ORDER_end, const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+^
+aes.c(814): error: too few arguments to function call, expected 11, have 2
+                add_round_key(q, skey + (u << 3));
+                ~~~~~~~~~~~~~                   ^
+aes.c(474): note: 'add_round_key' declared here
+add_round_key(int ORDER_start, int ORDER_end, const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+^
+aes.c(819): error: too few arguments to function call, expected 11, have 2
+        add_round_key(q, skey);
+        ~~~~~~~~~~~~~        ^
+aes.c(474): note: 'add_round_key' declared here
+add_round_key(int ORDER_start, int ORDER_end, const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+^
+4 warnings and 3 errors generated.
+compiling aes.c...
+compiling rtx_delay.c...
+compiling rtx_evflags.c...
+assembling irq_armv7m.S...
 asm.s(216): error: expected newline
         x0 = q[7];
               ^
@@ -265,171 +302,14 @@ asm.s(246): note: while in macro instantiation
         matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
         ^
 asm.s(251): note: while in macro instantiation
-        matrosecandnew_ sby12,sby15,sby12, sby15, sbt2,sband1tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(251): note: while in macro instantiation
-        matrosecandnew_ sby12,sby15,sby12, sby15, sbt2,sband1tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(252): note: while in macro instantiation
-        matrosecandnew_ sby3,sby6,sby3, sby6, sbt3, sband2tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(252): note: while in macro instantiation
-        matrosecandnew_ sby3,sby6,sby3, sby6, sbt3, sband2tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(253): note: while in macro instantiation
-        matrosecandnew_ sby4,sbx7,sby4, sbx7, sbt5, sband3tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(253): note: while in macro instantiation
-        matrosecandnew_ sby4,sbx7,sby4, sbx7, sbt5, sband3tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(254): note: while in macro instantiation
-        matrosecandnew_ sby13,sby16,sby13, sby16, sbt7, sband4tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(254): note: while in macro instantiation
-        matrosecandnew_ sby13,sby16,sby13, sby16, sbt7, sband4tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(255): note: while in macro instantiation
-        matrosecandnew_ sby5,sby1,sby5, sby1, sbt8, sband5tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(255): note: while in macro instantiation
-        matrosecandnew_ sby5,sby1,sby5, sby1, sbt8, sband5tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(256): note: while in macro instantiation
-        matrosecandnew_ sby2,sby7,sby2, sby7, sbt10,sband6tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(256): note: while in macro instantiation
-        matrosecandnew_ sby2,sby7,sby2, sby7, sbt10,sband6tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(257): note: while in macro instantiation
-        matrosecandnew_ sby9, sby11,sby9,sby11,sbt12,sband7tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(257): note: while in macro instantiation
-        matrosecandnew_ sby9, sby11,sby9,sby11,sbt12,sband7tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1 
-    ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(258): note: while in macro instantiation
-        matrosecandnew_ sby14, sby17, sby14, sby17,sbt13,sband8tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(20): error: expected absolute expression
-                        .if ORDER == 1 && 1 == 1
-                            ^
-<instantiation>(14): note: while in macro instantiation
-        matrosecandnew r6    , r7    , r8   , r9   , r10   , r11  , r0   , r1   , r2   , r3 , r4, r5, ORDER, 1, r12   , ORDER
-        ^
-asm.s(258): note: while in macro instantiation
-        matrosecandnew_ sby14, sby17, sby14, sby17,sbt13,sband8tr, ORDER, 1,r12,ORDER
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1
-    ^
-<instantiation>(5): note: while in macro instantiation
-                matrosecxor r6   , r7   , r8    , r9    , r10   , r11  , r0   , r1   , r2   , ORDER, 1
-                ^
-asm.s(259): note: while in macro instantiation
-        matrosecxor_ sbt3, sbt2, sbt4, ORDER, 1
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1
-    ^
-<instantiation>(5): note: while in macro instantiation
-                matrosecxor r6   , r7   , r8    , r9    , r10   , r11  , r0   , r1   , r2   , ORDER, 1
-                ^
-asm.s(260): note: while in macro instantiation
-        matrosecxor_ sbt5, sbt2, sbt6, ORDER, 1
-        ^
-<instantiation>(1): error: expected absolute expression
-.if ORDER == 1
 assembling asm.s...
-assembling irq_armv7m.S...
-compiling aes.c...
-compiling tables.c...
-compiling rtx_delay.c...
-compiling main.c...
-compiling rtx_evflags.c...
+compiling rtx_kernel.c...
 compiling rtx_evr.c...
+compiling rtx_lib.c...
+compiling rtx_memory.c...
+compiling rtx_mempool.c...
+compiling rtx_msgqueue.c...
+compiling rtx_mutex.c...
 
 <h2>Software Packages used:</h2>
 
@@ -467,33 +347,33 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: ARM::CMSIS:RTOS2:Keil RTX5:Source:5.5.4
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_semaphore.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_msgqueue.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_delay.c
+      Source file:   CMSIS/RTOS2/RTX/Template/svc_user.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mempool.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evflags.c
+      Source file:   CMSIS/RTOS2/RTX/Template/Timer.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_memory.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evr.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_kernel.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mutex.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_lib.c
+      Source file:   CMSIS/RTOS2/Source/os_systick.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_timer.c
+      Source file:   CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_system.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_thread.c
+      Include file:  CMSIS/RTOS2/RTX/Include/rtx_os.h
       Include file:  CMSIS/RTOS2/RTX/Config/RTX_Config.h
       Source file:   CMSIS/RTOS2/RTX/Config/RTX_Config.c
-      Include file:  CMSIS/RTOS2/RTX/Include/rtx_os.h
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_system.c
-      Source file:   CMSIS/RTOS2/RTX/Template/Timer.c
+      Source file:   CMSIS/RTOS2/RTX/Template/Thread.c
+      Source file:   CMSIS/RTOS2/RTX/Template/MsgQueue.c
       Source file:   CMSIS/RTOS2/RTX/Template/main.c
       Source file:   CMSIS/RTOS2/RTX/Template/MemPool.c
-      Source file:   CMSIS/RTOS2/RTX/Template/MsgQueue.c
-      Source file:   CMSIS/RTOS2/RTX/Template/Events.c
-      Source file:   CMSIS/RTOS2/RTX/Template/Thread.c
       Source file:   CMSIS/RTOS2/RTX/Template/Mutex.c
       Source file:   CMSIS/RTOS2/RTX/Template/Semaphore.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_kernel.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_thread.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_timer.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mutex.c
-      Source file:   CMSIS/RTOS2/RTX/Template/svc_user.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evflags.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_msgqueue.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evr.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mempool.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_delay.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_lib.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_semaphore.c
-      Source file:   CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_memory.c
-      Source file:   CMSIS/RTOS2/Source/os_systick.c
+      Source file:   CMSIS/RTOS2/RTX/Template/Events.c
 
    * Component: ARM::Device:Startup:C Startup:2.0.3
       Source file:   Device/ARM/ARMCM4/Source/startup_ARMCM4.c
@@ -501,13 +381,13 @@ Package Vendor: Keil
 
    * Component: Keil.ARM Compiler::Compiler:Event Recorder:DAP:1.5.1
       Source file:   Source/EventRecorder.c
-      Include file:  Config/EventRecorderConf.h
       Include file:  Include/EventRecorder.h
+      Include file:  Config/EventRecorderConf.h
 
    * Component: Keil.ARM Compiler::Compiler:I/O:STDOUT:EVR:1.2.0
       Source file:   Source/retarget_io.c
 Project build/rebuild aborted.
-Build Time Elapsed:  00:00:05
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
