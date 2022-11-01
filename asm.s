@@ -1,5 +1,7 @@
-#define ORDER 4
-
+	.syntax unified
+	.cpu cortex-m4
+	.set ORDER, 16
+	.set WIDTHBYTE, 4
 
 	
 	
@@ -209,18 +211,27 @@
 			.endif
 		.endif
 	.endm
+	
+	
+	
+	
+	
+	.global sboxprecom
+	.global sboxonline
+	.section .text
+	.align 4
 sboxprecom:
 	
 	PUSH {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	
-	x0 = q[7];
-	x1 = q[6];
-	x2 = q[5];
-	x3 = q[4];
-	x4 = q[3];
-	x5 = q[2];
-	x6 = q[1];
-	x7 = q[0];
+	//x0 = q[7];
+	//x1 = q[6];
+	//x2 = q[5];
+	//x3 = q[4];
+	//x4 = q[3];
+	//x5 = q[2];
+	//x6 = q[1];
+	//x7 = q[0];
 	matrosecxor_ sbx3, sbx5, sby14, ORDER, 1
 	matrosecxor_ sbx0, sbx6, sby13, ORDER, 1
 	matrosecxor_ sby13, sby14, sby12, ORDER, 1
@@ -357,7 +368,7 @@ sboxprecom:
 	//matrosecxor_ sbt53, sbt66, sbs3, ORDER, 1
 	matrosecxor_ sbt53, sbt66, sbx3, ORDER, 1
 	//matrosecxor_ sbt64, sbs3, sbs1, ORDER, 1
-	matrosecxor_ sbt64, sbx3, sbsx1, ORDER, 1
+	matrosecxor_ sbt64, sbx3, sbx1, ORDER, 1
 	//LDR r6, =sbs1
 	LDR r6, =sbx1
 	LDRH r0, [r6]

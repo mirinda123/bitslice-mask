@@ -43,11 +43,11 @@ typedef struct aes_ctx {
 
 int	AES_Setkey(AES_CTX *, const uint8_t *, int);
 void	AES_Encrypt(AES_CTX *, const uint8_t *, uint8_t *);
-void	AES_Decrypt(AES_CTX *, const uint8_t *, uint8_t *);
+//void	AES_Decrypt(AES_CTX *, const uint8_t *, uint8_t *);
 void	AES_Encrypt_ECB(AES_CTX *, const uint8_t *, uint8_t *, size_t);
-void	AES_Decrypt_ECB(AES_CTX *, const uint8_t *, uint8_t *, size_t);
+//void	AES_Decrypt_ECB(AES_CTX *, const uint8_t *, uint8_t *, size_t);
 
 int	AES_KeySetup_Encrypt(uint32_t *, const uint8_t *, int);
-int	AES_KeySetup_Decrypt(uint32_t *, const uint8_t *, int);
+//int	AES_KeySetup_Decrypt(uint32_t *, const uint8_t *, int);
 
 #endif	/* _AES_H_ */

@@ -32,7 +32,7 @@
 #include "stddef.h"
 #include <time.h>
 #include <stdlib.h>
-#define ORDER 4
+#define ORDER 16
 
 extern unsigned int sbx0[ORDER];
 extern unsigned int sbx1[ORDER];
@@ -801,23 +801,23 @@ inv_mix_columns(uint32_t *q)
  * eight 32-bit words, two block decryptions are actually performed
  * in parallel.
  */
-void
-aes_ct_bitslice_decrypt(unsigned num_rounds,
-	const uint32_t *skey, uint32_t *q)
-{
-	unsigned u;
+//void
+//aes_ct_bitslice_decrypt(unsigned num_rounds,
+//	const uint32_t *skey, uint32_t *q)
+//{
+//	unsigned u;
 
-	add_round_key(q, skey + (num_rounds << 3));
-	for (u = num_rounds - 1; u > 0; u --) {
-		inv_shift_rows(q);
-		aes_ct_bitslice_invSbox(q);
-		add_round_key(q, skey + (u << 3));
-		inv_mix_columns(q);
-	}
-	inv_shift_rows(q);
-	aes_ct_bitslice_invSbox(q);
-	add_round_key(q, skey);
-}
+//	add_round_key(q, skey + (num_rounds << 3));
+//	for (u = num_rounds - 1; u > 0; u --) {
+//		inv_shift_rows(q);
+//		aes_ct_bitslice_invSbox(q);
+//		add_round_key(q, skey + (u << 3));
+//		inv_mix_columns(q);
+//	}
+//	inv_shift_rows(q);
+//	aes_ct_bitslice_invSbox(q);
+//	add_round_key(q, skey);
+//}
 
 
 int
@@ -839,7 +839,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		uint32_t temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 			//sbx7 = q[0]
 			sbx7[j] = r;
@@ -852,7 +852,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 			//sbx6 = q[1]
 			sbx6[j] = r;
@@ -864,7 +864,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 				//sbx5 = q[2]
 			sbx5[j] = r;
@@ -876,7 +876,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();  
 				//sbx4 = q[3]
 			sbx4[j] = r;
@@ -888,7 +888,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();   
 				//sbx3 = q[4]
 			sbx3[j] = r;
@@ -899,7 +899,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 				//sbx2 = q[5]
 			sbx2[j] = r;
@@ -911,7 +911,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 				//sbx1 = q[6]
 			sbx1[j] = r;
@@ -922,7 +922,7 @@ randomization(uint32_t* q)
 		//ORDER + 1 shares
 		 temp = 0;
 		for(int j = 0;j <ORDER;j++){
-			srand(time(NULL));   
+			srand(42);   
 			uint32_t r = rand();
 				//sbx0 = q[7]
 			sbx0[j] = r;
@@ -1057,48 +1057,48 @@ AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
 	}
 }
 
-void
-AES_Decrypt_ECB(AES_CTX *ctx, const uint8_t *src,
-	uint8_t *dst, size_t num_blocks)
-{
-	while (num_blocks > 0) {
-		uint32_t q[8];
+//void
+//AES_Decrypt_ECB(AES_CTX *ctx, const uint8_t *src,
+//	uint8_t *dst, size_t num_blocks)
+//{
+//	while (num_blocks > 0) {
+//		uint32_t q[8];
 
-		q[0] = dec32le(src);
-		q[2] = dec32le(src + 4);
-		q[4] = dec32le(src + 8);
-		q[6] = dec32le(src + 12);
-		if (num_blocks > 1) {
-			q[1] = dec32le(src + 16);
-			q[3] = dec32le(src + 20);
-			q[5] = dec32le(src + 24);
-			q[7] = dec32le(src + 28);
-		} else {
-			q[1] = 0;
-			q[3] = 0;
-			q[5] = 0;
-			q[7] = 0;
-		}
-		aes_ct_ortho(q);
-		aes_ct_bitslice_decrypt(ctx->num_rounds, ctx->sk_exp, q);
-		aes_ct_ortho(q);
-		enc32le(dst, q[0]);
-		enc32le(dst + 4, q[2]);
-		enc32le(dst + 8, q[4]);
-		enc32le(dst + 12, q[6]);
-		if (num_blocks > 1) {
-			enc32le(dst + 16, q[1]);
-			enc32le(dst + 20, q[3]);
-			enc32le(dst + 24, q[5]);
-			enc32le(dst + 28, q[7]);
-			src += 32;
-			dst += 32;
-			num_blocks -= 2;
-		} else {
-			break;
-		}
-	}
-}
+//		q[0] = dec32le(src);
+//		q[2] = dec32le(src + 4);
+//		q[4] = dec32le(src + 8);
+//		q[6] = dec32le(src + 12);
+//		if (num_blocks > 1) {
+//			q[1] = dec32le(src + 16);
+//			q[3] = dec32le(src + 20);
+//			q[5] = dec32le(src + 24);
+//			q[7] = dec32le(src + 28);
+//		} else {
+//			q[1] = 0;
+//			q[3] = 0;
+//			q[5] = 0;
+//			q[7] = 0;
+//		}
+//		aes_ct_ortho(q);
+//		aes_ct_bitslice_decrypt(ctx->num_rounds, ctx->sk_exp, q);
+//		aes_ct_ortho(q);
+//		enc32le(dst, q[0]);
+//		enc32le(dst + 4, q[2]);
+//		enc32le(dst + 8, q[4]);
+//		enc32le(dst + 12, q[6]);
+//		if (num_blocks > 1) {
+//			enc32le(dst + 16, q[1]);
+//			enc32le(dst + 20, q[3]);
+//			enc32le(dst + 24, q[5]);
+//			enc32le(dst + 28, q[7]);
+//			src += 32;
+//			dst += 32;
+//			num_blocks -= 2;
+//		} else {
+//			break;
+//		}
+//	}
+//}
 
 void
 AES_Encrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
@@ -1106,11 +1106,11 @@ AES_Encrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
 	AES_Encrypt_ECB(ctx, src, dst, 1);
 }
 
-void
-AES_Decrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
-{
-	AES_Decrypt_ECB(ctx, src, dst, 1);
-}
+//void
+//AES_Decrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
+//{
+//	AES_Decrypt_ECB(ctx, src, dst, 1);
+//}
 
 int
 AES_KeySetup_Encrypt(uint32_t *skey, const uint8_t *key, int len)
