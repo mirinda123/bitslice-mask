@@ -1,4 +1,4 @@
-#define ORDER 4
+#define ORDER 2
 
 #define RANDOM_LENGTH 1024
 

@@ -32,7 +32,7 @@
 #include "stddef.h"
 #include <time.h>
 #include <stdlib.h>
-#define ORDER 4
+#define ORDER 2
 
 extern unsigned int sbx0[ORDER];
 extern unsigned int sbx1[ORDER];
@@ -471,18 +471,18 @@ aes_ct_skey_expand(uint32_t *skey,
 }
 
 static inline void
-add_round_key(int ORDER_start, int ORDER_end, const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+add_round_key(const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
 {
-	for(int i = ORDER_start;i< ORDER_end;i++){
-		q0[i] ^= sk[0];
-		q1[i] ^= sk[1];
-		q2[i] ^= sk[2];
-		q3[i] ^= sk[3];
-		q4[i] ^= sk[4];
-		q5[i] ^= sk[5];
-		q6[i] ^= sk[6];
-		q7[i] ^= sk[7];
-	}
+	
+		q0[0] ^= sk[0];
+		q1[0] ^= sk[1];
+		q2[0] ^= sk[2];
+		q3[0] ^= sk[3];
+		q4[0] ^= sk[4];
+		q5[0] ^= sk[5];
+		q6[0] ^= sk[6];
+		q7[0] ^= sk[7];
+	
 }
 
 
@@ -650,40 +650,45 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 	//add_round_key in precompute phase
 	//sbx7存的是q0
 	//sbx6存的是q1
-	add_round_key(0, ORDER, skey,sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-	add_round_key(0, 1, skey, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	//这里add_round_key应该只对一个share做异或就行了，而不是所有的share
+	//add_round_key没有问题
+	add_round_key(skey,sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+	
 	for (u = 1; u < num_rounds; u ++) {
 		//sbox in precompute phase
 		sboxprecom();
 		//aes_ct_bitslice_Sbox(q);
 		//shift_rows in precompute phase
-		shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+		
+		//shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 		
 		//mix_columns in precompute phase
-		mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+		
+		//mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 		
 		
-		add_round_key(0, ORDER, skey + (u << 3), sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+		
 		//sbox in online phase
 		sboxonline();
 		//shift_rows in online_phase
-		shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		
+		//shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		//mix_columns in online phase
-		mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		
+		//mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		
-		add_round_key(0, 1, skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		add_round_key(skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 	}
 	
 	//aes_ct_bitslice_Sbox(q);
 	sboxprecom();
 	shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-	add_round_key(0, ORDER, skey + (num_rounds << 3), sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 	
 	sboxonline();
 	shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-	add_round_key(0, 1, skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	add_round_key(skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 }
 
 /*

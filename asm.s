@@ -1,6 +1,6 @@
 	.syntax unified
 	.cpu cortex-m4
-	.set ORDER, 4
+	.set ORDER, 2
 	.set WIDTHBYTE, 4
 
 	
@@ -238,6 +238,8 @@ sboxprecom:
 	//x5 = q[2];
 	//x6 = q[1];
 	//x7 = q[0];
+	
+	//这边的输入检查过了，应该是没有问题
 	matrosecxor_ sbx3, sbx5, sby14, ORDER, 1
 	matrosecxor_ sbx0, sbx6, sby13, ORDER, 1
 	matrosecxor_ sby13, sby14, sby12, ORDER, 1
@@ -284,9 +286,11 @@ sboxprecom:
 	matrosecxor_ sbt19, sby21, sbt23, ORDER, 1
 	matrosecandnew_ sby8, sby10, sby8, sby10,sbt15,sband9tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sbt21, sbt23,sbt21, sbt23, sbt26, sband10tr, ORDER, 1,r12,ORDER
-	matrosecxor_ sbt15, sby12, sbt16, ORDER, 1
-	matrosecxor_ sbt6, sby16, sbt18, ORDER, 1
-	matrosecxor_ sbt11, sby16, sbt20, ORDER, 1
+	
+	// 下面这个感觉有点问题？
+	matrosecxor_ sbt15, sbt12, sbt16, ORDER, 1
+	matrosecxor_ sbt6, sbt16, sbt18, ORDER, 1
+	matrosecxor_ sbt11, sbt16, sbt20, ORDER, 1
 	matrosecxor_ sbt20, sby18, sbt24, ORDER, 1
 	matrosecxor_ sbt23, sbt24, sbt30, ORDER, 1
 	matrosecxor_ sbt18, sby19, sbt22, ORDER, 1
@@ -343,7 +347,8 @@ sboxprecom:
 	matrosecxor_ sbz0, sbz3, sbt53, ORDER, 1
 	matrosecxor_ sbz2, sbz12, sbt50, ORDER, 1
 	matrosecxor_ sbt50, sbt53, sbt57, ORDER, 1
-	matrosecxor_ sbt60, sbt46, sbt57, ORDER, 1
+	//这里有错
+	matrosecxor_ sbt46, sbt57, sbt60, ORDER, 1
 	matrosecxor_ sbz14, sbt57, sbt61, ORDER, 1
 	matrosecxor_ sbt61, sbt62, sbt65, ORDER, 1
 	//matrosecxor_ sbt59, sbt63, sbs0,ORDER, 1
@@ -383,7 +388,8 @@ sboxprecom:
 	MVN r0,r0
 	STR r0, [r6]
 	//matrosecxor_ sbt55, sbt62, sbs6, ORDER, 1
-	matrosecxor_ sbt55, sbt62, sbx6, ORDER, 1
+	//这里有错
+	matrosecxor_ sbt56, sbt62, sbx6, ORDER, 1
 	//LDR r6, =sbs6
 	LDR r6, =sbx6
 	LDR r0, [r6]
@@ -450,13 +456,14 @@ sboxonline:
 	matrosecxor_ online_sbt13, online_sbt12, online_sbt14, ORDER, 0
 	matrosecxor_ online_sbt4, online_sbt14, online_sbt17, ORDER, 0
 	matrosecxor_ online_sbt9, online_sbt14, online_sbt19, ORDER, 0
-	matrosecxor_ online_sbt17, online_sbt20, online_sbt21, ORDER, 0
+	// 这里有错
+	matrosecxor_ online_sbt17, online_sby20, online_sbt21, ORDER, 0
 	matrosecxor_ online_sbt19, online_sby21, online_sbt23, ORDER, 0
 	matrosecandnew_ online_sby8, online_sby10, sby8, sby10, online_sbt15, sband9tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt21, online_sbt23, sbt21, sbt23, online_sbt26, sband10tr, ORDER+1, 0,r12, ORDER
-	matrosecxor_ online_sbt15, online_sby12, online_sbt16, ORDER, 0
-	matrosecxor_ online_sbt6, online_sby16, online_sbt18, ORDER,  0
-	matrosecxor_ online_sbt11, online_sby16, online_sbt20, ORDER, 0
+	matrosecxor_ online_sbt15, online_sbt12, online_sbt16, ORDER, 0
+	matrosecxor_ online_sbt6, online_sbt16, online_sbt18, ORDER,  0
+	matrosecxor_ online_sbt11, online_sbt16, online_sbt20, ORDER, 0
 	matrosecxor_ online_sbt20, online_sby18, online_sbt24, ORDER, 0
 	matrosecxor_ online_sbt23, online_sbt24, online_sbt30, ORDER, 0
 	matrosecxor_ online_sbt18, online_sby19, online_sbt22, ORDER, 0
@@ -513,7 +520,7 @@ sboxonline:
 	matrosecxor_ online_sbz0, online_sbz3, online_sbt53, ORDER, 0
 	matrosecxor_ online_sbz2, online_sbz12, online_sbt50, ORDER, 0
 	matrosecxor_ online_sbt50, online_sbt53, online_sbt57, ORDER, 0
-	matrosecxor_ online_sbt60, online_sbt46, online_sbt57, ORDER, 0
+	matrosecxor_ online_sbt46, online_sbt57, online_sbt60, ORDER, 0
 	matrosecxor_ online_sbz14, online_sbt57, online_sbt61, ORDER, 0
 	matrosecxor_ online_sbt61, online_sbt62, online_sbt65, ORDER, 0
 	//matrosecxor_ online_sbt59, online_sbt63, online_sbs0,ORDER, 0
