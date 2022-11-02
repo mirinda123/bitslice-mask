@@ -282,7 +282,7 @@ sboxprecom:
 	matrosecxor_ sbt13, sbt12, sbt14, ORDER, 1
 	matrosecxor_ sbt4, sbt14, sbt17, ORDER, 1
 	matrosecxor_ sbt9, sbt14, sbt19, ORDER, 1
-	matrosecxor_ sbt17, sbt20, sbt21, ORDER, 1
+	matrosecxor_ sbt17, sby20, sbt21, ORDER, 1
 	matrosecxor_ sbt19, sby21, sbt23, ORDER, 1
 	matrosecandnew_ sby8, sby10, sby8, sby10,sbt15,sband9tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sbt21, sbt23,sbt21, sbt23, sbt26, sband10tr, ORDER, 1,r12,ORDER
@@ -540,7 +540,7 @@ sboxonline:
 	//matrosecxor_ online_sbt64, online_sbs3, online_sbs1, ORDER, 0
 	matrosecxor_ online_sbt64, online_sbx3, online_sbx1, ORDER, 0
 	//matrosecxor_ online_sbt55, online_sbt62, online_sbs6, ORDER, 0
-	matrosecxor_ online_sbt55, online_sbt62, online_sbx6, ORDER, 0
+	matrosecxor_ online_sbt56, online_sbt62, online_sbx6, ORDER, 0
 	//matrosecxor_ online_sbt48, online_sbt60, online_sbs7, ORDER, 0
 	matrosecxor_ online_sbt48, online_sbt60, online_sbx7, ORDER, 0
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
