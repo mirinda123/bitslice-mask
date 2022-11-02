@@ -660,11 +660,11 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 		//aes_ct_bitslice_Sbox(q);
 		//shift_rows in precompute phase
 		
-		//shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+		shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 		
 		//mix_columns in precompute phase
 		
-		//mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
+		mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
 		
 		
 		
@@ -672,11 +672,11 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 		sboxonline();
 		//shift_rows in online_phase
 		
-		//shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		//mix_columns in online phase
 		
-		//mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		
 		add_round_key(skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
