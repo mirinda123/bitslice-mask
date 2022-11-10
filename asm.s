@@ -373,6 +373,8 @@ sboxprecom:
 	matrosecxor_ sbt47, sbt65, sbx5, ORDER, 1
 	matrosecxor_ sbt64, sbt65, sbt67, ORDER, 1
 	//matrosecxor_ sbt55, sbt67, sbs2, ORDER, 1
+	
+	// 这里不能这么写，这样写，sbx2就被修改过了，但是下面的online部分需要！明天重新改一下
 	matrosecxor_ sbt55, sbt67, sbx2, ORDER, 1
 	//LDR r6, =sbs2
 	LDR r6, =sbx2

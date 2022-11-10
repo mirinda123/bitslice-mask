@@ -163,7 +163,7 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	t2 = y12 & y15;
 	t3 = y3 & y6;
 	t4 = t3 ^ t2;
-	t5 = y4 & x7;
+	t5 = y4 & x7;	//t5不对 y4是对的 x7不对，因为x7执行到online部分时候被修改了
 	t6 = t5 ^ t2;
 	t7 = y13 & y16;
 	t8 = y5 & y1;
@@ -178,15 +178,15 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	//this
 	t16 = t15 ^ t12;
 	t17 = t4 ^ t14;
-	t18 = t6 ^ t16;
+	t18 = t6 ^ t16;	//t18不对，t6不对
 	t19 = t9 ^ t14;
 	t20 = t11 ^ t16;
 	t21 = t17 ^ y20;
-	t22 = t18 ^ y19;
+	t22 = t18 ^ y19;	// t22不对，t18不对
 	t23 = t19 ^ y21;
 	t24 = t20 ^ y18;
 
-	t25 = t21 ^ t22;
+	t25 = t21 ^ t22;	//t25 不对 t21是对的，t22不对
 	t26 = t21 & t23;
 	t27 = t24 ^ t26;
 	t28 = t25 & t27;
@@ -201,7 +201,7 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	t37 = t36 ^ t34;
 	t38 = t27 ^ t36;
 	t39 = t29 & t38;
-	t40 = t25 ^ t39;
+	t40 = t25 ^ t39;	//检查一下这个，t40不对 t25不对
 
 	t41 = t40 ^ t37;
 	t42 = t29 ^ t33;
@@ -221,7 +221,7 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	z10 = t37 & y3;
 	z11 = t33 & y4;
 	z12 = t43 & y13;
-	z13 = t40 & y5;
+	z13 = t40 & y5;//z13不对。检查一下后面的两个，t40不对
 	z14 = t29 & y2;
 	z15 = t42 & y9;
 	z16 = t45 & y14;
@@ -232,7 +232,7 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	 */
 	t46 = z15 ^ z16;
 	t47 = z10 ^ z11;
-	t48 = z5 ^ z13;
+	t48 = z5 ^ z13;//t48 不对，检查一下这个，z5是对的 z13不对
 	t49 = z9 ^ z10;
 	t50 = z2 ^ z12;
 	t51 = z2 ^ z5;
@@ -253,7 +253,7 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	t66 = z1 ^ t63;
 	s0 = t59 ^ t63;
 	s6 = t56 ^ ~t62;
-	s7 = t48 ^ ~t60;
+	s7 = t48 ^ ~t60;//检查一下这个
 	t67 = t64 ^ t65;
 	s3 = t53 ^ t66;
 	s4 = t51 ^ t66;
