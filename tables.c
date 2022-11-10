@@ -27,23 +27,41 @@ unsigned int t_second[1];
 unsigned int r[ORDER];
 
 //xtest的3各share异或起来是0x1264
-unsigned int sbxtest[ORDER]={0x4363,0x2325};
+unsigned int sbxtest[ORDER] = {0x4363,0x2325};
+
+//ctest的各项异或起来是0x8855
+unsigned int sbctest[ORDER] = {0x12441244,0x239D239D};
 //ytest的3各share异或起来是0xA6BD
 
 unsigned int sbytest[ORDER]={0x536A,0xDFF2};
 
+//dtest的各项异或起来是0x9966
+unsigned int sbdtest[ORDER] = {0xA360A360,0x123E123E};
 //xtest and ytest = 0x224
+//ctest and dtest = 0x8844
 unsigned int sbttest[ORDER]={0};
+unsigned int sbetest[ORDER]={0};
+
+
 unsigned int sband0txtest[ORDER]={0};
 unsigned int sband0tytest[ORDER]={0};
 unsigned int sband0tttest[ORDER]={0};
 unsigned int sband0trtest[ORDER] ={0};
 
+unsigned int sband1txtest[ORDER]={0};
+unsigned int sband1tytest[ORDER]={0};
+unsigned int sband1tttest[ORDER]={0};
+unsigned int sband1trtest[ORDER] ={0};
+
+
 unsigned int online_sbxtest[1]={0x7222};
 unsigned int online_sbytest[1]={0x2a25};
+unsigned int online_sbctest[1] = {0xB98CB98C};
+unsigned int online_sbdtest[1] = {0x28382838};
 unsigned int online_sbttest[1]={0};
+unsigned int online_sbetest[1]={0};
 unsigned int test_random_table[1] = {0}; 
-unsigned int random_table[RANDOM_LENGTH]={63312, 36836, 35604, 49307, 20637, 26178, 45314, 37202, 5420, 33957, 5398, 6371, 24992, 56394, 47675, 59440, 20463, 3070, 10435, 34748, 26719, 8279, 6730, 63209, 14599, 33486, 52421, 31587, 44571, 17128, 62514, 55684, 3137, 62752, 37430, 46186, 20428, 27254, 49725, 58643, 16752, 30783, 48410, 41553, 741, 54360, 32789, 30621, 58038, 14492, 52870, 28521, 7150, 55770, 64830, 4533, 20130, 38216, 36253, 39198, 14689, 7451, 45298, 55837, 58346, 18865, 1065, 35025, 16811, 41215, 26544, 60375, 55969, 18728, 4472, 34593, 63750, 34964, 46480, 1159, 41889, 29018, 16841, 24420, 39787, 29247, 9824, 59262, 12623, 33523, 36633, 50715, 35868, 8274, 18832, 37216};
+unsigned int random_table[RANDOM_LENGTH]={0x04030201,0x08070605,0x0C0B0A09,0x010F0E0D,0x1B0A2063, 0x12342618, 0x453141DF, 0x3702AD34, 0x5420DF1B, 33957, 5398, 6371, 24992, 56394, 47675, 59440, 20463, 3070, 10435, 34748, 26719, 8279, 6730, 63209, 14599, 33486, 52421, 31587, 44571, 17128, 62514, 55684, 3137, 62752, 37430, 46186, 20428, 27254, 49725, 58643, 16752, 30783, 48410, 41553, 741, 54360, 32789, 30621, 58038, 14492, 52870, 28521, 7150, 55770, 64830, 4533, 20130, 38216, 36253, 39198, 14689, 7451, 45298, 55837, 58346, 18865, 1065, 35025, 16811, 41215, 26544, 60375, 55969, 18728, 4472, 34593, 63750, 34964, 46480, 1159, 41889, 29018, 16841, 24420, 39787, 29247, 9824, 59262, 12623, 33523, 36633, 50715, 35868, 8274, 18832, 37216};
 unsigned int AES_bitslice_const_address[] = {0x55555555, 0xAAAAAAAA,0x33333333,0xCCCCCCCC,0x0F0F0F0F,0xF0F0F0F0};
 
 //密钥暂时先存在round_key的前4个里面

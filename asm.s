@@ -71,7 +71,7 @@
 			LDR \temp1, [\xaddr]
 			// temp2 = yaddr[0]
 			LDR \temp2, [\yaddr]
-			//temp1 = xaddr[0]
+			//temp1 = xaddr[0]yaddr[0]
 			AND  \temp1, \temp2
 			
 			// zaddr 是论文中的u
@@ -80,8 +80,8 @@
 			STR \temp1, [\zaddr]
 			.set ii, 0
 				
-			//如果是order为1，应该会有一个额外的情况
-			//precompute后面后面的那些步骤
+			//如果是初始order为1(flag == 1)，应该会有一个额外的情况
+			//即precompute后面的那些步骤
 			.if \flag == 1 && \precomp == 1
 				//temp3: 随机数
 				LDR \temp3, [\randomtableaddr], #4 //random bits
@@ -128,21 +128,19 @@
 			//----------------------------------------
 			
 			//如果是online计算，不会用随机数
-
 			.if \precomp == 1
 				.set ii, 0
 				// 计算tr
 				.rept  \kvalue-1
-					//temp3 = r
-					//MOV  \temp3, #1 //random bits
+					//temp3 = r[i]
 					LDR \temp3, [\randomtableaddr], #4 //random bits
-					// temp2 = zaddr[ii]
+					// temp2 = u[i]
 					LDR \temp2, [\zaddr,#ii]
-					//更新z为随机数
+					//更新z为新生成的k-1个随机数
 					STR \temp3, [\zaddr,#ii]
-					// temp2 = r xor zaddr[ii]
+					// temp2 = r[i] xor u[i]
 					EOR  \temp2, \temp3
-					// traddr[ii] = r xor  zaddr[ii]
+					// traddr[ii] = r[i] xor  u[i]
 					STR \temp2, [\traddr,#ii]
 					.set ii, ii+1 * WIDTHBYTE
 				.endr
@@ -185,7 +183,7 @@
 			// store z[k-1] = z
 			// 计算好第k个z，即第k个u
 			// 注意，计算出来第k个z后，之前的z都会变成随机数
-			STRH \z, [\zaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
+			STR \z, [\zaddr,#(\kvalue-1)*WIDTHBYTE*\precomp]
 			
 			//末尾的一小段
 			// 这一小段会把z1-zd变成随机数
@@ -223,7 +221,9 @@
 	
 sbox_test:
 	// 单个and是没有问题的，但是matrosecandnew_ sby12,sby15,sby12, sby15, sbt2,sband1tr, ORDER, 1,r12,ORDER 就有问题了....
-	// 难道有多个and 会出问题吗？
+	// 难道有多个and 会出问题吗？没有问题
+	
+	
 	LDR r12, =random_table
 	matrosecandnew_ sbxtest,sbytest,sbxtest, sbytest, sbttest,sband0trtest, ORDER, 1,r12,ORDER
 	matrosecandnew_ sbctest,sbdtest,sbctest, sbdtest, sbetest,sband1trtest, ORDER, 1,r12,ORDER
@@ -276,7 +276,11 @@ sboxprecom:
 	
 
 	matrosecandnew_ sby12,sby15,sby12, sby15, sbt2,sband1tr, ORDER, 1,r12,ORDER
+	
+	//经过验证，到这里没有问题，t2异或起来是正确的
 	matrosecandnew_ sby3,sby6,sby3, sby6, sbt3, sband2tr, ORDER, 1,r12,ORDER
+	
+	//t3也是正确的
 	matrosecandnew_ sby4,sbx7,sby4, sbx7, sbt5, sband3tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sby13,sby16,sby13, sby16, sbt7, sband4tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sby5,sby1,sby5, sby1, sbt8, sband5tr, ORDER, 1,r12,ORDER
@@ -295,7 +299,7 @@ sboxprecom:
 	matrosecandnew_ sby8, sby10, sby8, sby10,sbt15,sband9tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sbt21, sbt23,sbt21, sbt23, sbt26, sband10tr, ORDER, 1,r12,ORDER
 	
-	// 下面这个感觉有点问题？
+
 	matrosecxor_ sbt15, sbt12, sbt16, ORDER, 1
 	matrosecxor_ sbt6, sbt16, sbt18, ORDER, 1
 	matrosecxor_ sbt11, sbt16, sbt20, ORDER, 1
@@ -450,6 +454,8 @@ sboxonline:
 
 //															tx         ty          tr tx ty tr的长度为order ，前面的长度为1
 	matrosecandnew_ online_sby12, online_sby15, sby12,sby15,online_sbt2, sband1tr, ORDER + 1, 0,r12,ORDER
+	
+	//到这里没有问题
 	matrosecandnew_ online_sby3, online_sby6, sby3, sby6, online_sbt3, sband2tr, ORDER+1, 0,r12,ORDER
 	matrosecandnew_ online_sby4, online_sbx7, sby4, sbx7, online_sbt5, sband3tr, ORDER+1, 0,r12,ORDER
 	matrosecandnew_ online_sby13, online_sby16, sby13, sby16, online_sbt7, sband4tr, ORDER+1, 0,r12,ORDER
