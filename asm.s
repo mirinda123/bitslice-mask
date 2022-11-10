@@ -84,7 +84,7 @@
 			//precompute后面后面的那些步骤
 			.if \flag == 1 && \precomp == 1
 				//temp3: 随机数
-				LDR \temp3, [\randomtableaddr], #2 //random bits
+				LDR \temp3, [\randomtableaddr], #4 //random bits
 				// temp2 = zaddr[ii]即ui
 				LDR \temp2, [\zaddr,#ii]
 				//更新z为随机数
@@ -135,7 +135,7 @@
 				.rept  \kvalue-1
 					//temp3 = r
 					//MOV  \temp3, #1 //random bits
-					LDR \temp3, [\randomtableaddr], #2 //random bits
+					LDR \temp3, [\randomtableaddr], #4 //random bits
 					// temp2 = zaddr[ii]
 					LDR \temp2, [\zaddr,#ii]
 					//更新z为随机数
@@ -195,7 +195,7 @@
 				//这里是不是要多一次
 				.rept  \kvalue
 					//temp3 = r
-					LDR \temp3, [\randomtableaddr], #2 //random bits
+					LDR \temp3, [\randomtableaddr], #4 //random bits
 					// temp2 = zaddr[ii]
 					LDR \temp2, [\zaddr,#ii]
 					//更新z为随机数
@@ -222,8 +222,14 @@
 	.align 4
 	
 sbox_test:
+	// 单个and是没有问题的，但是matrosecandnew_ sby12,sby15,sby12, sby15, sbt2,sband1tr, ORDER, 1,r12,ORDER 就有问题了....
+	// 难道有多个and 会出问题吗？
+	LDR r12, =random_table
 	matrosecandnew_ sbxtest,sbytest,sbxtest, sbytest, sbttest,sband0trtest, ORDER, 1,r12,ORDER
+	matrosecandnew_ sbctest,sbdtest,sbctest, sbdtest, sbetest,sband1trtest, ORDER, 1,r12,ORDER
+	
 	matrosecandnew_ online_sbxtest, online_sbytest, sbxtest,sbytest,online_sbttest, sband0trtest, ORDER + 1, 0,r12,ORDER
+	matrosecandnew_ online_sbctest, online_sbdtest, sbctest,sbdtest,online_sbetest, sband1trtest, ORDER + 1, 0,r12,ORDER
 	
 	bx lr
 sboxprecom:
@@ -257,6 +263,8 @@ sboxprecom:
 	matrosecxor_ sby15, sbx7, sby6, ORDER, 1
 	matrosecxor_ sby15, sbt0, sby10, ORDER, 1
 	matrosecxor_ sby20, sby9, sby11, ORDER, 1
+	
+	
 	matrosecxor_ sbx7, sby11, sby7, ORDER, 1
 	matrosecxor_ sby10, sby11, sby17, ORDER, 1
 	matrosecxor_ sby10, sby8, sby19, ORDER, 1

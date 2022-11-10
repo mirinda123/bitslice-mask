@@ -30,47 +30,7 @@
 #include <string.h>
 #include "aes.h"
 #include "stddef.h"
-#include <time.h>
-#include <stdlib.h>
-#define ORDER 2
 
-extern unsigned int sbx0[ORDER];
-extern unsigned int sbx1[ORDER];
-extern unsigned int sbx2[ORDER];
-extern unsigned int sbx3[ORDER];
-extern unsigned int sbx4[ORDER];
-extern unsigned int sbx5[ORDER];
-extern unsigned int sbx6[ORDER];
-extern unsigned int sbx7[ORDER];
-
-extern unsigned int sbs0[ORDER];
-extern unsigned int sbs1[ORDER];
-extern unsigned int sbs2[ORDER];
-extern unsigned int sbs3[ORDER];
-extern unsigned int sbs4[ORDER];
-extern unsigned int sbs5[ORDER];
-extern unsigned int sbs6[ORDER];
-extern unsigned int sbs7[ORDER];
-
-extern unsigned int online_sbx0[1];
-extern unsigned int online_sbx1[1];
-extern unsigned int online_sbx2[1];
-extern unsigned int online_sbx3[1];
-extern unsigned int online_sbx4[1];
-extern unsigned int online_sbx5[1];
-extern unsigned int online_sbx6[1];
-extern unsigned int online_sbx7[1];
-
-extern unsigned int online_sbs0[1];
-extern unsigned int online_sbs1[1];
-extern unsigned int online_sbs2[1];
-extern unsigned int online_sbs3[1];
-extern unsigned int online_sbs4[1];
-extern unsigned int online_sbs5[1];
-extern unsigned int online_sbs6[1];
-extern unsigned int online_sbs7[1];
-		
-		
 static inline void
 enc32le(void *dst, uint32_t x)
 {
@@ -198,6 +158,8 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	/*
 	 * Non-linear section.
 	 */
+
+	// �������y12�ǶԵ� y15Ҳ�ǶԵģ�����t2����
 	t2 = y12 & y15;
 	t3 = y3 & y6;
 	t4 = t3 ^ t2;
@@ -212,6 +174,8 @@ aes_ct_bitslice_Sbox(uint32_t *q)
 	t13 = y14 & y17;
 	t14 = t13 ^ t12;
 	t15 = y8 & y10;
+
+	//this
 	t16 = t15 ^ t12;
 	t17 = t4 ^ t14;
 	t18 = t6 ^ t16;
@@ -471,93 +435,32 @@ aes_ct_skey_expand(uint32_t *skey,
 }
 
 static inline void
-add_round_key(const uint32_t *sk, uint32_t *q0, uint32_t *q1,uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+add_round_key(uint32_t *q, const uint32_t *sk)
 {
-	
-		q0[0] ^= sk[0];
-		q1[0] ^= sk[1];
-		q2[0] ^= sk[2];
-		q3[0] ^= sk[3];
-		q4[0] ^= sk[4];
-		q5[0] ^= sk[5];
-		q6[0] ^= sk[6];
-		q7[0] ^= sk[7];
-	
+	q[0] ^= sk[0];
+	q[1] ^= sk[1];
+	q[2] ^= sk[2];
+	q[3] ^= sk[3];
+	q[4] ^= sk[4];
+	q[5] ^= sk[5];
+	q[6] ^= sk[6];
+	q[7] ^= sk[7];
 }
 
-
 static inline void
-shift_rows(int ORDER_start,int ORDER_end, uint32_t *q0, uint32_t *q1, uint32_t *q2, uint32_t *q3, uint32_t *q4, uint32_t *q5, uint32_t *q6, uint32_t *q7)
+shift_rows(uint32_t *q)
 {
 	int i;
-	uint32_t x;
-	
-	//每个order独立做shiftrow
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		
 
-		x = q0[i];
-		q0[i] = (x & 0x000000FF)
+	for (i = 0; i < 8; i ++) {
+		uint32_t x;
+
+		x = q[i];
+		q[i] = (x & 0x000000FF)
 			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
 			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
 			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
 	}
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q1[i];
-		q1[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q2[i];
-		q2[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q3[i];
-		q3[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q4[i];
-		q4[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q5[i];
-		q5[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q6[i];
-		q6[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
-	for (i = ORDER_start; i < ORDER_end; i ++) {
-		x = q7[i];
-		q7[i] = (x & 0x000000FF)
-			| ((x & 0x0000FC00) >> 2) | ((x & 0x00000300) << 6)
-			| ((x & 0x00F00000) >> 4) | ((x & 0x000F0000) << 4)
-			| ((x & 0xC0000000) >> 6) | ((x & 0x3F000000) << 2);
-	}
-	
 }
 
 static inline uint32_t
@@ -566,9 +469,8 @@ rotr16(uint32_t x)
 	return (x << 16) | (x >> 16);
 }
 
-
 static inline void
-mix_columns_old(uint32_t *q)
+mix_columns(uint32_t *q)
 {
 	uint32_t q0, q1, q2, q3, q4, q5, q6, q7;
 	uint32_t r0, r1, r2, r3, r4, r5, r6, r7;
@@ -600,42 +502,6 @@ mix_columns_old(uint32_t *q)
 	q[7] = q6 ^ r6 ^ r7 ^ rotr16(q7 ^ r7);
 }
 
-
-static inline void
-mix_columns(int ORDER_start, int ORDER_end, uint32_t *src_q0, uint32_t *src_q1, uint32_t *src_q2, uint32_t *src_q3, uint32_t *src_q4, uint32_t *src_q5, uint32_t *src_q6, uint32_t *src_q7)
-{
-	for(int i = ORDER_start; i< ORDER_end; i++){
-		uint32_t q0, q1, q2, q3, q4, q5, q6, q7;
-		uint32_t r0, r1, r2, r3, r4, r5, r6, r7;
-
-		q0 = src_q0[i];
-		q1 = src_q1[i];
-		q2 = src_q2[i];
-		q3 = src_q3[i];
-		q4 = src_q5[i];
-		q5 = src_q5[i];
-		q6 = src_q6[i];
-		q7 = src_q7[i];
-		r0 = (q0 >> 8) | (q0 << 24);
-		r1 = (q1 >> 8) | (q1 << 24);
-		r2 = (q2 >> 8) | (q2 << 24);
-		r3 = (q3 >> 8) | (q3 << 24);
-		r4 = (q4 >> 8) | (q4 << 24);
-		r5 = (q5 >> 8) | (q5 << 24);
-		r6 = (q6 >> 8) | (q6 << 24);
-		r7 = (q7 >> 8) | (q7 << 24);
-
-		src_q0[i] = q7 ^ r7 ^ r0 ^ rotr16(q0 ^ r0);
-		src_q1[i] = q0 ^ r0 ^ q7 ^ r7 ^ r1 ^ rotr16(q1 ^ r1);
-		src_q2[i] = q1 ^ r1 ^ r2 ^ rotr16(q2 ^ r2);
-		src_q3[i] = q2 ^ r2 ^ q7 ^ r7 ^ r3 ^ rotr16(q3 ^ r3);
-		src_q4[i] = q3 ^ r3 ^ q7 ^ r7 ^ r4 ^ rotr16(q4 ^ r4);
-		src_q5[i] = q4 ^ r4 ^ r5 ^ rotr16(q5 ^ r5);
-		src_q6[i] = q5 ^ r5 ^ r6 ^ rotr16(q6 ^ r6);
-		src_q7[i] = q6 ^ r6 ^ r7 ^ rotr16(q7 ^ r7);
-	}
-}
-
 /*
  * Compute AES encryption on bitsliced data. Since input is stored on
  * eight 32-bit words, two block encryptions are actually performed
@@ -643,53 +509,20 @@ mix_columns(int ORDER_start, int ORDER_end, uint32_t *src_q0, uint32_t *src_q1, 
  */
 void
 aes_ct_bitslice_encrypt(unsigned num_rounds,
-	const uint32_t *skey)
+	const uint32_t *skey, uint32_t *q)
 {
 	unsigned u;
 
-	//add_round_key in precompute phase
-	//sbx7存的是q0
-	//sbx6存的是q1
-	//这里add_round_key应该只对一个share做异或就行了，而不是所有的share
-	//add_round_key没有问题,经过验证了！
-	add_round_key(skey,sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-	
+	add_round_key(q, skey);
 	for (u = 1; u < num_rounds; u ++) {
-		//sbox in precompute phase
-		sboxprecom();
-		//sboxprecom最后把结果存储在sbx里面
-		//aes_ct_bitslice_Sbox(q);
-		//shift_rows in precompute phase
-		
-		//shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-		
-		//mix_columns in precompute phase
-		
-		//mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-		
-		
-		
-		//sbox in online phase
-		sboxonline();
-		//shift_rows in online_phase
-		
-		//shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-		
-		//mix_columns in online phase
-		
-		//mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-		
-		
-		//add_round_key(skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+		aes_ct_bitslice_Sbox(q);
+		shift_rows(q);
+		mix_columns(q);
+		add_round_key(q, skey + (u << 3));
 	}
-	
-	//aes_ct_bitslice_Sbox(q);
-	sboxprecom();
-	shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-	
-	sboxonline();
-	shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-	add_round_key(skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	aes_ct_bitslice_Sbox(q);
+	shift_rows(q);
+	add_round_key(q, skey + (num_rounds << 3));
 }
 
 /*
@@ -809,23 +642,23 @@ inv_mix_columns(uint32_t *q)
  * eight 32-bit words, two block decryptions are actually performed
  * in parallel.
  */
-//void
-//aes_ct_bitslice_decrypt(unsigned num_rounds,
-//	const uint32_t *skey, uint32_t *q)
-//{
-//	unsigned u;
+void
+aes_ct_bitslice_decrypt(unsigned num_rounds,
+	const uint32_t *skey, uint32_t *q)
+{
+	unsigned u;
 
-//	add_round_key(q, skey + (num_rounds << 3));
-//	for (u = num_rounds - 1; u > 0; u --) {
-//		inv_shift_rows(q);
-//		aes_ct_bitslice_invSbox(q);
-//		add_round_key(q, skey + (u << 3));
-//		inv_mix_columns(q);
-//	}
-//	inv_shift_rows(q);
-//	aes_ct_bitslice_invSbox(q);
-//	add_round_key(q, skey);
-//}
+	add_round_key(q, skey + (num_rounds << 3));
+	for (u = num_rounds - 1; u > 0; u --) {
+		inv_shift_rows(q);
+		aes_ct_bitslice_invSbox(q);
+		add_round_key(q, skey + (u << 3));
+		inv_mix_columns(q);
+	}
+	inv_shift_rows(q);
+	aes_ct_bitslice_invSbox(q);
+	add_round_key(q, skey);
+}
 
 
 int
@@ -838,185 +671,6 @@ AES_Setkey(AES_CTX *ctx, const uint8_t *key, int len)
 	return 0;
 }
 
-// split to ORDER + 1 shares and store into tables
-void
-randomization(uint32_t* q)
-{
-	
-	
-		//ORDER + 1 shares
-		uint32_t temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();
-			//sbx7 = q[0]
-			sbx7[j] = r;
-			temp = temp ^ r;
-		}
-		
-		online_sbx7[0] = q[0] ^ temp;
-		
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			//Attention! the random number generation here is vulnerable, just for test!
-			srand(42);   
-			uint32_t r = rand();
-			//sbx6 = q[1]
-			sbx6[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx6[0] = q[1] ^ temp;
-		
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();
-				//sbx5 = q[2]
-			sbx5[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx5[0] = q[2] ^ temp;
-		
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();  
-				//sbx4 = q[3]
-			sbx4[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx4[0] = q[3] ^ temp;
-		
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();   
-				//sbx3 = q[4]
-			sbx3[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx3[0] = q[4] ^ temp;
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();
-				//sbx2 = q[5]
-			sbx2[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx2[0] = q[5] ^ temp;
-		
-
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();
-				//sbx1 = q[6]
-			sbx1[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx1[0] = q[6] ^ temp;
-		
-		//ORDER + 1 shares
-		 temp = 0;
-		for(int j = 0;j <ORDER;j++){
-			srand(42);   
-			uint32_t r = rand();
-				//sbx0 = q[7]
-			sbx0[j] = r;
-			temp = temp ^ r;
-		}
-		online_sbx0[0] = q[7] ^ temp;
-		
-}
-
-// split to ORDER + 1 shares and store into tables
-void
-de_randomization(uint32_t* q)
-{
-	
-	//Attention! the random number generation here is vulnerable, just for test!
-		//ORDER + 1 shares
-		q[0] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx7 = q[0]
-			q[0] ^= sbx7[j];
-		}
-		q[0] ^= online_sbx7[0];
-		
-		
-		//ORDER + 1 shares
-		q[1] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[1] ^= sbx6[j];
-		}
-		q[1] ^= online_sbx6[0];
-		
-		
-		//ORDER + 1 shares
-		q[2] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[2] ^= sbx5[j];
-		}
-		q[2] ^= online_sbx5[0];
-		
-		
-		//ORDER + 1 shares
-		q[3] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[3] ^= sbx4[j];
-		}
-		q[3] ^= online_sbx4[0];
-		
-		
-		//ORDER + 1 shares
-		q[4] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[4] ^= sbx3[j];
-		}
-		q[4] ^= online_sbx3[0];
-		
-		//ORDER + 1 shares
-		q[5] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[5] ^= sbx2[j];
-		}
-		q[5] ^= online_sbx2[0];
-		
-
-		//ORDER + 1 shares
-		q[6] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[6] ^= sbx1[j];
-		}
-		q[6] ^= online_sbx1[0];
-		
-		//ORDER + 1 shares
-		q[7] = 0;
-		for(int j = 0;j <ORDER;j++){
-			//sbx6 = q[1]
-			q[7] ^= sbx0[j];
-		}
-		q[7] ^= online_sbx0[0];
-		
-}
 void
 AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
 	uint8_t *dst, size_t num_blocks)
@@ -1039,14 +693,8 @@ AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
 			q[5] = 0;
 			q[7] = 0;
 		}
-		
-		//正交化
 		aes_ct_ortho(q);
-		
-		//正交化后，使用随机数,每个q变成ORDER + 1个share
-		randomization(q);
-		aes_ct_bitslice_encrypt(ctx->num_rounds, ctx->sk_exp);
-		de_randomization(q);
+		aes_ct_bitslice_encrypt(ctx->num_rounds, ctx->sk_exp, q);
 		aes_ct_ortho(q);
 		enc32le(dst, q[0]);
 		enc32le(dst + 4, q[2]);
@@ -1066,48 +714,50 @@ AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
 	}
 }
 
-//void
-//AES_Decrypt_ECB(AES_CTX *ctx, const uint8_t *src,
-//	uint8_t *dst, size_t num_blocks)
-//{
-//	while (num_blocks > 0) {
-//		uint32_t q[8];
+void
+AES_Decrypt_ECB(AES_CTX *ctx, const uint8_t *src,
+	uint8_t *dst, size_t num_blocks)
+{
+	while (num_blocks > 0) {
+		uint32_t q[8];
 
-//		q[0] = dec32le(src);
-//		q[2] = dec32le(src + 4);
-//		q[4] = dec32le(src + 8);
-//		q[6] = dec32le(src + 12);
-//		if (num_blocks > 1) {
-//			q[1] = dec32le(src + 16);
-//			q[3] = dec32le(src + 20);
-//			q[5] = dec32le(src + 24);
-//			q[7] = dec32le(src + 28);
-//		} else {
-//			q[1] = 0;
-//			q[3] = 0;
-//			q[5] = 0;
-//			q[7] = 0;
-//		}
-//		aes_ct_ortho(q);
-//		aes_ct_bitslice_decrypt(ctx->num_rounds, ctx->sk_exp, q);
-//		aes_ct_ortho(q);
-//		enc32le(dst, q[0]);
-//		enc32le(dst + 4, q[2]);
-//		enc32le(dst + 8, q[4]);
-//		enc32le(dst + 12, q[6]);
-//		if (num_blocks > 1) {
-//			enc32le(dst + 16, q[1]);
-//			enc32le(dst + 20, q[3]);
-//			enc32le(dst + 24, q[5]);
-//			enc32le(dst + 28, q[7]);
-//			src += 32;
-//			dst += 32;
-//			num_blocks -= 2;
-//		} else {
-//			break;
-//		}
-//	}
-//}
+		q[0] = dec32le(src);
+		q[2] = dec32le(src + 4);
+		q[4] = dec32le(src + 8);
+		q[6] = dec32le(src + 12);
+		if (num_blocks > 1) {
+			q[1] = dec32le(src + 16);
+			q[3] = dec32le(src + 20);
+			q[5] = dec32le(src + 24);
+			q[7] = dec32le(src + 28);
+			}
+			else {
+			q[1] = 0;
+			q[3] = 0;
+			q[5] = 0;
+			q[7] = 0;
+		}
+		aes_ct_ortho(q);
+		aes_ct_bitslice_decrypt(ctx->num_rounds, ctx->sk_exp, q);
+		aes_ct_ortho(q);
+		enc32le(dst, q[0]);
+		enc32le(dst + 4, q[2]);
+		enc32le(dst + 8, q[4]);
+		enc32le(dst + 12, q[6]);
+		if (num_blocks > 1) {
+			enc32le(dst + 16, q[1]);
+			enc32le(dst + 20, q[3]);
+			enc32le(dst + 24, q[5]);
+			enc32le(dst + 28, q[7]);
+			src += 32;
+			dst += 32;
+			num_blocks -= 2;
+			}
+			 else {
+			break;
+		}
+	}
+}
 
 void
 AES_Encrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
@@ -1115,11 +765,11 @@ AES_Encrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
 	AES_Encrypt_ECB(ctx, src, dst, 1);
 }
 
-//void
-//AES_Decrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
-//{
-//	AES_Decrypt_ECB(ctx, src, dst, 1);
-//}
+void
+AES_Decrypt(AES_CTX *ctx, const uint8_t *src, uint8_t *dst)
+{
+	AES_Decrypt_ECB(ctx, src, dst, 1);
+}
 
 int
 AES_KeySetup_Encrypt(uint32_t *skey, const uint8_t *key, int len)

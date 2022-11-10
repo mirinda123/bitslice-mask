@@ -27,13 +27,6 @@ Project File Date:  10/31/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'D:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Simulation'
-tables.c(30): warning: excess elements in array initializer [-Wexcess-initializers]
-unsigned int sbxtest[ORDER]={0x4363,0x2325,0x3234,0x1245};
-                                           ^~~~~~
-tables.c(33): warning: excess elements in array initializer [-Wexcess-initializers]
-unsigned int sbytest[ORDER]={0x536A,0xDFF2,0x442B,0x1122};
-                                           ^~~~~~
-2 warnings generated.
 compiling tables.c...
 main.c(10): warning: implicit declaration of function 'sbox_test' is invalid in C99 [-Wimplicit-function-declaration]
         sbox_test();
@@ -42,42 +35,42 @@ main.c(10): warning: implicit declaration of function 'sbox_test' is invalid in 
 compiling main.c...
 compiling rtx_delay.c...
 assembling asm.s...
-compiling rtx_evflags.c...
 aes.c(659): warning: implicit declaration of function 'sboxprecom' is invalid in C99 [-Wimplicit-function-declaration]
                 sboxprecom();
                 ^
-aes.c(672): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
+aes.c(673): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
                 sboxonline();
                 ^
-aes.c(686): warning: implicit declaration of function 'sboxprecom' is invalid in C99 [-Wimplicit-function-declaration]
+aes.c(687): warning: implicit declaration of function 'sboxprecom' is invalid in C99 [-Wimplicit-function-declaration]
         sboxprecom();
         ^
-aes.c(689): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
+aes.c(690): warning: implicit declaration of function 'sboxonline' is invalid in C99 [-Wimplicit-function-declaration]
         sboxonline();
         ^
 4 warnings generated.
 compiling aes.c...
+compiling rtx_evflags.c...
 assembling irq_armv7m.S...
-compiling rtx_memory.c...
-compiling rtx_kernel.c...
 compiling rtx_lib.c...
+compiling rtx_memory.c...
 compiling rtx_evr.c...
-compiling rtx_mempool.c...
+compiling rtx_kernel.c...
 compiling rtx_mutex.c...
+compiling rtx_mempool.c...
 compiling rtx_msgqueue.c...
-compiling os_systick.c...
 compiling rtx_system.c...
 compiling rtx_semaphore.c...
-compiling RTX_Config.c...
 compiling rtx_timer.c...
+compiling RTX_Config.c...
+compiling os_systick.c...
 compiling rtx_thread.c...
 compiling EventRecorder.c...
 compiling retarget_io.c...
 compiling startup_ARMCM4.c...
 compiling system_ARMCM4.c...
 linking...
-Program Size: Code=38264 RO-data=1308 RW-data=4404 ZI-data=11868  
-".\Flash\Blinky.axf" - 0 Error(s), 7 Warning(s).
+Program Size: Code=37412 RO-data=1308 RW-data=4404 ZI-data=11868  
+".\Flash\Blinky.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -115,32 +108,32 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: ARM::CMSIS:RTOS2:Keil RTX5:Source:5.5.4
-      Include file:  CMSIS/RTOS2/RTX/Include/rtx_os.h
       Include file:  CMSIS/RTOS2/RTX/Config/RTX_Config.h
-      Source file:   CMSIS/RTOS2/RTX/Config/RTX_Config.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_system.c
-      Source file:   CMSIS/RTOS2/RTX/Template/MemPool.c
-      Source file:   CMSIS/RTOS2/RTX/Template/Mutex.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_delay.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_msgqueue.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_lib.c
-      Source file:   CMSIS/RTOS2/RTX/Template/MsgQueue.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mempool.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_thread.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_kernel.c
+      Include file:  CMSIS/RTOS2/RTX/Include/rtx_os.h
+      Source file:   CMSIS/RTOS2/RTX/Template/svc_user.c
       Source file:   CMSIS/RTOS2/RTX/Source/rtx_semaphore.c
       Source file:   CMSIS/RTOS2/RTX/Source/rtx_evflags.c
-      Source file:   CMSIS/RTOS2/RTX/Template/main.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_memory.c
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_timer.c
-      Source file:   CMSIS/RTOS2/RTX/Template/svc_user.c
-      Source file:   CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
-      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evr.c
-      Source file:   CMSIS/RTOS2/RTX/Template/Semaphore.c
       Source file:   CMSIS/RTOS2/RTX/Template/Thread.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_evr.c
       Source file:   CMSIS/RTOS2/RTX/Template/Events.c
+      Source file:   CMSIS/RTOS2/RTX/Template/MemPool.c
+      Source file:   CMSIS/RTOS2/RTX/Template/main.c
+      Source file:   CMSIS/RTOS2/RTX/Template/MsgQueue.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_mempool.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_msgqueue.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_lib.c
+      Source file:   CMSIS/RTOS2/RTX/Source/GCC/irq_armv7m.S
+      Source file:   CMSIS/RTOS2/RTX/Template/Semaphore.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_system.c
+      Source file:   CMSIS/RTOS2/RTX/Template/Mutex.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_thread.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_timer.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_delay.c
       Source file:   CMSIS/RTOS2/RTX/Template/Timer.c
       Source file:   CMSIS/RTOS2/RTX/Source/rtx_mutex.c
+      Source file:   CMSIS/RTOS2/RTX/Config/RTX_Config.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_memory.c
+      Source file:   CMSIS/RTOS2/RTX/Source/rtx_kernel.c
       Source file:   CMSIS/RTOS2/Source/os_systick.c
 
    * Component: ARM::Device:Startup:C Startup:2.0.3
