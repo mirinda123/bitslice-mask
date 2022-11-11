@@ -7,7 +7,7 @@ uint8_t dst[16];
 int main(void)
 {
 	// test for unprotected AES
-	sbox_test();
+	//sbox_test();
 	AES_CTX ctx = {{0},{0},10};
 	
 	ctx.num_rounds = 10;

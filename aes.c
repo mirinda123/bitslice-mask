@@ -1020,7 +1020,7 @@ de_randomization(uint32_t* q)
 }
 void
 AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
-	uint8_t *dst, size_t num_blocks)
+	uint8_t *dst, uint32_t num_blocks)
 {
 	while (num_blocks > 0) {
 		uint32_t q[8];
@@ -1053,6 +1053,7 @@ AES_Encrypt_ECB(AES_CTX *ctx, const uint8_t *src,
 		enc32le(dst + 4, q[2]);
 		enc32le(dst + 8, q[4]);
 		enc32le(dst + 12, q[6]);
+		// 为什么在这里点单步能通过，点run就不能通过？
 		if (num_blocks > 1) {
 			enc32le(dst + 16, q[1]);
 			enc32le(dst + 20, q[3]);
