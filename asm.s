@@ -210,7 +210,25 @@
 		.endif
 	.endm
 	
+.macro STOREBACK sbs, online_sbs, sbx, online_sbx, kvalue
+	LDR r4, =\sbs
+	LDR r5, =\online_sbs
 	
+	LDR r6, =\sbx
+	LDR r7, =\online_sbx
+	
+	.set ii, 0
+	.rept  \kvalue
+		// r8 used as temp
+		MOV r8, 0
+		LDR r8, [r4, #ii]
+		STR r8, [r6, #ii]
+		.set ii, ii+1 * WIDTHBYTE
+	.endr
+	MOV r8, 0
+	LDR r8, [r5]
+	STR r8, [r7]
+.endm
 	
 	
 	.global sbox_test
@@ -387,7 +405,9 @@ sboxprecom:
 	matrosecxor_ sbz5, sbz13, sbt48, ORDER, 1
 	matrosecxor_ sbz12, sbt48, sbt56, ORDER, 1
 	matrosecxor_ sbt53, sbt66, sbs3, ORDER, 1
-	matrosecxor_ sbt64, sbx3, sbs1, ORDER, 1
+	
+	// 这个地方应该是s3不是x3
+	matrosecxor_ sbt64, sbs3, sbs1, ORDER, 1
 	//LDR r6, =sbs1
 	LDR r6, =sbs1
 	LDR r0, [r6]
@@ -542,10 +562,19 @@ sboxonline:
 	matrosecxor_ online_sbz5, online_sbz13, online_sbt48, ORDER, 0
 	matrosecxor_ online_sbz12, online_sbt48, online_sbt56, ORDER, 0
 	matrosecxor_ online_sbt53, online_sbt66, online_sbs3, ORDER, 0
-	matrosecxor_ online_sbt64, online_sbx3, online_sbs1, ORDER, 0
+	//下面应该是s3，不是x3
+	matrosecxor_ online_sbt64, online_sbs3, online_sbs1, ORDER, 0
 	matrosecxor_ online_sbt56, online_sbt62, online_sbs6, ORDER, 0
 	matrosecxor_ online_sbt48, online_sbt60, online_sbs7, ORDER, 0
 	
 	// 别忘了把s存回到x里面
+	STOREBACK sbs0, online_sbs0, sbx0, online_sbx0, ORDER
+	STOREBACK sbs1, online_sbs1, sbx1, online_sbx1, ORDER
+	STOREBACK sbs2, online_sbs2, sbx2, online_sbx2, ORDER
+	STOREBACK sbs3, online_sbs3, sbx3, online_sbx3, ORDER
+	STOREBACK sbs4, online_sbs4, sbx4, online_sbx4, ORDER
+	STOREBACK sbs5, online_sbs5, sbx5, online_sbx5, ORDER
+	STOREBACK sbs6, online_sbs6, sbx6, online_sbx6, ORDER
+	STOREBACK sbs7, online_sbs7, sbx7, online_sbx7, ORDER
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	bx lr
