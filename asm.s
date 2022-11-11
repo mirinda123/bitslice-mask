@@ -245,7 +245,7 @@ sboxprecom:
 	//x6 = q[1];
 	//x7 = q[0];
 	
-	//这边的输入检查过了，应该是没有问题
+	//这边的输入检查过了，没有问题x0-x7是对的
 	matrosecxor_ sbx3, sbx5, sby14, ORDER, 1
 	matrosecxor_ sbx0, sbx6, sby13, ORDER, 1
 	matrosecxor_ sby13, sby14, sby12, ORDER, 1
@@ -312,7 +312,8 @@ sboxprecom:
 	matrosecandnew_ sbt25, sbt27, sbt25, sbt27,sbt28, sband11tr, ORDER, 1,r12,ORDER
 	matrosecandnew_ sbt31, sbt30, sbt31, sbt30,sbt32, sband12tr, ORDER, 1,r12,ORDER
 	matrosecxor_ sbt28, sbt22, sbt29, ORDER, 1
-	matrosecxor_ sbt33, sbt24, sbt33, ORDER, 1
+	//https://eprint.iacr.org/2016/264.pdf 这里写错了
+	matrosecxor_ sbt32, sbt24, sbt33, ORDER, 1
 	matrosecxor_ sbt23, sbt33, sbt34, ORDER, 1
 	matrosecxor_ sbt27, sbt33, sbt35, ORDER, 1
 	matrosecxor_ sbt29, sbt33, sbt42, ORDER, 1
@@ -363,21 +364,16 @@ sboxprecom:
 	matrosecxor_ sbt46, sbt57, sbt60, ORDER, 1
 	matrosecxor_ sbz14, sbt57, sbt61, ORDER, 1
 	matrosecxor_ sbt61, sbt62, sbt65, ORDER, 1
-	//matrosecxor_ sbt59, sbt63, sbs0,ORDER, 1
-	//write back to sbx0,not sbs0
-	matrosecxor_ sbt59, sbt63, sbx0,ORDER, 1
-	matrosecxor_ sbz2, sbz5, sbt51, ORDER, 1
-	//matrosecxor_ sbt51, sbt66, sbs4, ORDER, 1
-	matrosecxor_ sbt51, sbt66, sbx4, ORDER, 1
-	//matrosecxor_ sbt47, sbt65, sbs5, ORDER, 1
-	matrosecxor_ sbt47, sbt65, sbx5, ORDER, 1
-	matrosecxor_ sbt64, sbt65, sbt67, ORDER, 1
-	//matrosecxor_ sbt55, sbt67, sbs2, ORDER, 1
 	
+	
+	matrosecxor_ sbt59, sbt63, sbs0,ORDER, 1
+	matrosecxor_ sbz2, sbz5, sbt51, ORDER, 1
+	matrosecxor_ sbt51, sbt66, sbs4, ORDER, 1
+	matrosecxor_ sbt47, sbt65, sbs5, ORDER, 1
+	matrosecxor_ sbt64, sbt65, sbt67, ORDER, 1
 	// 这里不能这么写，这样写，sbx2就被修改过了，但是下面的online部分需要！明天重新改一下
-	matrosecxor_ sbt55, sbt67, sbx2, ORDER, 1
-	//LDR r6, =sbs2
-	LDR r6, =sbx2
+	matrosecxor_ sbt55, sbt67, sbs2, ORDER, 1
+	LDR r6, =sbs2
 	
 	//r0: sbs2
 	LDR r0, [r6]
@@ -390,30 +386,25 @@ sboxprecom:
 	STR r0, [r6]	
 	matrosecxor_ sbz5, sbz13, sbt48, ORDER, 1
 	matrosecxor_ sbz12, sbt48, sbt56, ORDER, 1
-	//matrosecxor_ sbt53, sbt66, sbs3, ORDER, 1
-	matrosecxor_ sbt53, sbt66, sbx3, ORDER, 1
-	//matrosecxor_ sbt64, sbs3, sbs1, ORDER, 1
-	matrosecxor_ sbt64, sbx3, sbx1, ORDER, 1
+	matrosecxor_ sbt53, sbt66, sbs3, ORDER, 1
+	matrosecxor_ sbt64, sbx3, sbs1, ORDER, 1
 	//LDR r6, =sbs1
-	LDR r6, =sbx1
+	LDR r6, =sbs1
 	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	MVN r0,r0
 	STR r0, [r6]
-	//matrosecxor_ sbt55, sbt62, sbs6, ORDER, 1
 	//这里有错
-	matrosecxor_ sbt56, sbt62, sbx6, ORDER, 1
-	//LDR r6, =sbs6
-	LDR r6, =sbx6
+	matrosecxor_ sbt56, sbt62, sbs6, ORDER, 1
+	LDR r6, =sbs6
 	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
 	MVN r0,r0
 	STR r0, [r6]
-	//matrosecxor_ sbt48, sbt60, sbs7, ORDER, 1
-	matrosecxor_ sbt48, sbt60, sbx7, ORDER, 1
-	LDR r6, =sbx7
+	matrosecxor_ sbt48, sbt60, sbs7, ORDER, 1
+	LDR r6, =sbs7
 	LDR r0, [r6]
 	//LDR r7, =0xFFFF
 	//EOR r0, r0, r7
@@ -489,7 +480,9 @@ sboxonline:
 	matrosecandnew_ online_sbt25, online_sbt27, sbt25, sbt27, online_sbt28, sband11tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt31, online_sbt30, sbt31, sbt30, online_sbt32, sband12tr, ORDER+1, 0,r12, ORDER
 	matrosecxor_ online_sbt28, online_sbt22, online_sbt29, ORDER, 0
-	matrosecxor_ online_sbt33, online_sbt24, online_sbt33, ORDER, 0
+	
+	// https://eprint.iacr.org/2016/264.pdf 这里写错了
+	matrosecxor_ online_sbt32, online_sbt24, online_sbt33, ORDER, 0
 	matrosecxor_ online_sbt23, online_sbt33, online_sbt34, ORDER, 0
 	matrosecxor_ online_sbt27, online_sbt33, online_sbt35, ORDER, 0
 	matrosecxor_ online_sbt29, online_sbt33, online_sbt42, ORDER, 0
@@ -539,25 +532,20 @@ sboxonline:
 	matrosecxor_ online_sbt46, online_sbt57, online_sbt60, ORDER, 0
 	matrosecxor_ online_sbz14, online_sbt57, online_sbt61, ORDER, 0
 	matrosecxor_ online_sbt61, online_sbt62, online_sbt65, ORDER, 0
-	//matrosecxor_ online_sbt59, online_sbt63, online_sbs0,ORDER, 0
-	matrosecxor_ online_sbt59, online_sbt63, online_sbx0,ORDER, 0
+	
+	matrosecxor_ online_sbt59, online_sbt63, online_sbs0,ORDER, 0
 	matrosecxor_ online_sbz2, online_sbz5, online_sbt51, ORDER, 0
-	//matrosecxor_ online_sbt51, online_sbt66, online_sbs4, ORDER, 0
-	matrosecxor_ online_sbt51, online_sbt66, online_sbx4, ORDER, 0
-	//matrosecxor_ online_sbt47, online_sbt65, online_sbs5, ORDER, 0
-	matrosecxor_ online_sbt47, online_sbt65, online_sbx5, ORDER, 0
+	matrosecxor_ online_sbt51, online_sbt66, online_sbs4, ORDER, 0
+	matrosecxor_ online_sbt47, online_sbt65, online_sbs5, ORDER, 0
 	matrosecxor_ online_sbt64, online_sbt65, online_sbt67, ORDER, 0
-	//matrosecxor_ online_sbt55, online_sbt67, online_sbs2, ORDER, 0
-	matrosecxor_ online_sbt55, online_sbt67, online_sbx2, ORDER, 0	
+	matrosecxor_ online_sbt55, online_sbt67, online_sbs2, ORDER, 0	
 	matrosecxor_ online_sbz5, online_sbz13, online_sbt48, ORDER, 0
 	matrosecxor_ online_sbz12, online_sbt48, online_sbt56, ORDER, 0
-	//matrosecxor_ online_sbt53, online_sbt66, online_sbs3, ORDER, 0
-	matrosecxor_ online_sbt53, online_sbt66, online_sbx3, ORDER, 0
-	//matrosecxor_ online_sbt64, online_sbs3, online_sbs1, ORDER, 0
-	matrosecxor_ online_sbt64, online_sbx3, online_sbx1, ORDER, 0
-	//matrosecxor_ online_sbt55, online_sbt62, online_sbs6, ORDER, 0
-	matrosecxor_ online_sbt56, online_sbt62, online_sbx6, ORDER, 0
-	//matrosecxor_ online_sbt48, online_sbt60, online_sbs7, ORDER, 0
-	matrosecxor_ online_sbt48, online_sbt60, online_sbx7, ORDER, 0
+	matrosecxor_ online_sbt53, online_sbt66, online_sbs3, ORDER, 0
+	matrosecxor_ online_sbt64, online_sbx3, online_sbs1, ORDER, 0
+	matrosecxor_ online_sbt56, online_sbt62, online_sbs6, ORDER, 0
+	matrosecxor_ online_sbt48, online_sbt60, online_sbs7, ORDER, 0
+	
+	// 别忘了把s存回到x里面
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	bx lr
