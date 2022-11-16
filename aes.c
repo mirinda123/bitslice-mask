@@ -493,7 +493,7 @@ shift_rows(int ORDER_start,int ORDER_end, uint32_t *q0, uint32_t *q1, uint32_t *
 	uint32_t x;
 	
 	//每个order独立做shiftrow
-	for (i = ORDER_start; i < ORDER_end; i ++) {
+	for (i = ORDER_start; i < ORDER_end; i++) {
 		
 
 		x = q0[i];
@@ -612,7 +612,7 @@ mix_columns(int ORDER_start, int ORDER_end, uint32_t *src_q0, uint32_t *src_q1, 
 		q1 = src_q1[i];
 		q2 = src_q2[i];
 		q3 = src_q3[i];
-		q4 = src_q5[i];
+		q4 = src_q4[i];
 		q5 = src_q5[i];
 		q6 = src_q6[i];
 		q7 = src_q7[i];
@@ -660,28 +660,18 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 		//sboxprecom最后把结果存储在sbx里面
 		//aes_ct_bitslice_Sbox(q);
 		//shift_rows in precompute phase
-		
 		shift_rows(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-		
 		//mix_columns in precompute phase
-		
 		mix_columns(0, ORDER, sbx7,sbx6,sbx5,sbx4,sbx3,sbx2,sbx1,sbx0);
-		
-		
-		
 		//sbox in online phase
-		// s盒是没有问题了
 		sboxonline();
 		//shift_rows in online_phase
-		
 		shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 		
 		//mix_columns in online phase
-		
 		mix_columns(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
-		
-		
 		add_round_key(skey + (u << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	//一轮过后是对的，没有问题
 	}
 	
 	//aes_ct_bitslice_Sbox(q);
@@ -691,6 +681,7 @@ aes_ct_bitslice_encrypt(unsigned num_rounds,
 	sboxonline();
 	shift_rows(0, 1, online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
 	add_round_key(skey + (num_rounds << 3), online_sbx7, online_sbx6, online_sbx5, online_sbx4, online_sbx3, online_sbx2, online_sbx1, online_sbx0);
+	//十轮后到这里没有问题
 }
 
 /*

@@ -78,6 +78,15 @@ unsigned int sbx6[ORDER]={0x9645};
 unsigned int sbx7[ORDER]={0x50fa};
 
 
+//unsigned int sbx0_for_online[ORDER];
+//unsigned int sbx1_for_online[ORDER];
+//unsigned int sbx2_for_online[ORDER];
+//unsigned int sbx3_for_online[ORDER];
+//unsigned int sbx4_for_online[ORDER];
+//unsigned int sbx5_for_online[ORDER];
+//unsigned int sbx6_for_online[ORDER];
+unsigned int sbx7_for_online[ORDER];
+
 
 
 

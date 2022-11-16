@@ -229,6 +229,22 @@
 	LDR r8, [r5]
 	STR r8, [r7]
 .endm
+
+
+
+.macro duplicate src, dst, kvalue
+	LDR r4, =\src
+	LDR r5, =\dst
+		
+	.set ii, 0
+	.rept  \kvalue
+		// r8 used as temp
+		MOV r8, 0
+		LDR r8, [r4, #ii]
+		STR r8, [r5, #ii]
+		.set ii, ii+1 * WIDTHBYTE
+	.endr
+.endm
 	
 	
 	.global sbox_test
@@ -262,6 +278,18 @@ sboxprecom:
 	//x5 = q[2];
 	//x6 = q[1];
 	//x7 = q[0];
+	
+	//因为预计算后，经过shiftrow和mixcolumn，sbx会改变，影响sboxonline的计算，所以把初始的sbx都暂存起来
+	//duplicate sbx0, sbx0_for_online, ORDER
+	//duplicate sbx1, sbx1_for_online, ORDER
+	//duplicate sbx2, sbx2_for_online, ORDER
+	//duplicate sbx3, sbx3_for_online, ORDER
+	//duplicate sbx4, sbx4_for_online, ORDER
+	//duplicate sbx5, sbx5_for_online, ORDER
+	//duplicate sbx6, sbx6_for_online, ORDER
+	duplicate sbx7, sbx7_for_online, ORDER
+	
+	
 	
 	//这边的输入检查过了，没有问题x0-x7是对的
 	matrosecxor_ sbx3, sbx5, sby14, ORDER, 1
@@ -430,6 +458,18 @@ sboxprecom:
 	//EOR r0, r0, r7
 	MVN r0,r0
 	STR r0, [r6]
+	
+	
+	//precompute结束后，把sbs 存到sbx里面
+	//sbs0-7在online部分就用不到了
+	duplicate sbs0, sbx0, ORDER
+	duplicate sbs1, sbx1, ORDER
+	duplicate sbs2, sbx2, ORDER
+	duplicate sbs3, sbx3, ORDER
+	duplicate sbs4, sbx4, ORDER
+	duplicate sbs5, sbx5, ORDER
+	duplicate sbs6, sbx6, ORDER
+	duplicate sbs7, sbx7, ORDER
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	bx lr
 	
@@ -470,7 +510,7 @@ sboxonline:
 	
 	//到这里没有问题
 	matrosecandnew_ online_sby3, online_sby6, sby3, sby6, online_sbt3, sband2tr, ORDER+1, 0,r12,ORDER
-	matrosecandnew_ online_sby4, online_sbx7, sby4, sbx7, online_sbt5, sband3tr, ORDER+1, 0,r12,ORDER
+	matrosecandnew_ online_sby4, online_sbx7, sby4, sbx7_for_online, online_sbt5, sband3tr, ORDER+1, 0,r12,ORDER
 	matrosecandnew_ online_sby13, online_sby16, sby13, sby16, online_sbt7, sband4tr, ORDER+1, 0,r12,ORDER
 	matrosecandnew_ online_sby5, online_sby1, sby5, sby1, online_sbt8, sband5tr, ORDER+1, 0,r12,ORDER
 	matrosecandnew_ online_sby2, online_sby7, sby2,sby7, online_sbt10, sband6tr, ORDER+1, 0,r12,ORDER
@@ -519,7 +559,7 @@ sboxonline:
 	matrosecxor_ online_sbt42, online_sbt41, online_sbt45, ORDER, 0
 	matrosecandnew_ online_sbt44, online_sby15, sbt44, sby15, online_sbz0, sband17tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt37, online_sby6, sbt37, sby6, online_sbz1, sband18tr, ORDER+1, 0,r12, ORDER
-	matrosecandnew_ online_sbt33, online_sbx7, sbt33, sbx7, online_sbz2, sband19tr, ORDER+1, 0,r12, ORDER
+	matrosecandnew_ online_sbt33, online_sbx7, sbt33, sbx7_for_online, online_sbz2, sband19tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt43, online_sby16, sbt43, sby16, online_sbz3,  sband20tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt40, online_sby1, sbt40, sby1, online_sbz4,  sband21tr, ORDER+1, 0,r12, ORDER
 	matrosecandnew_ online_sbt42, online_sby11, sbt42, sby11, online_sbz6,  sband22tr, ORDER+1, 0,r12, ORDER
@@ -568,13 +608,13 @@ sboxonline:
 	matrosecxor_ online_sbt48, online_sbt60, online_sbs7, ORDER, 0
 	
 	// 别忘了把s存回到x里面
-	STOREBACK sbs0, online_sbs0, sbx0, online_sbx0, ORDER
-	STOREBACK sbs1, online_sbs1, sbx1, online_sbx1, ORDER
-	STOREBACK sbs2, online_sbs2, sbx2, online_sbx2, ORDER
-	STOREBACK sbs3, online_sbs3, sbx3, online_sbx3, ORDER
-	STOREBACK sbs4, online_sbs4, sbx4, online_sbx4, ORDER
-	STOREBACK sbs5, online_sbs5, sbx5, online_sbx5, ORDER
-	STOREBACK sbs6, online_sbs6, sbx6, online_sbx6, ORDER
-	STOREBACK sbs7, online_sbs7, sbx7, online_sbx7, ORDER
+	duplicate online_sbs0, online_sbx0, 1
+	duplicate online_sbs1, online_sbx1, 1
+	duplicate online_sbs2, online_sbx2, 1
+	duplicate online_sbs3, online_sbx3, 1
+	duplicate online_sbs4, online_sbx4, 1
+	duplicate online_sbs5, online_sbx5, 1
+	duplicate online_sbs6, online_sbx6, 1
+	duplicate online_sbs7, online_sbx7, 1
 	POP {r0,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10,r11,r12}
 	bx lr
