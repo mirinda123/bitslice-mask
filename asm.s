@@ -280,16 +280,7 @@ sboxprecom:
 	//x7 = q[0];
 	
 	//因为预计算后，经过shiftrow和mixcolumn，sbx会改变，影响sboxonline的计算，所以把初始的sbx都暂存起来
-	//duplicate sbx0, sbx0_for_online, ORDER
-	//duplicate sbx1, sbx1_for_online, ORDER
-	//duplicate sbx2, sbx2_for_online, ORDER
-	//duplicate sbx3, sbx3_for_online, ORDER
-	//duplicate sbx4, sbx4_for_online, ORDER
-	//duplicate sbx5, sbx5_for_online, ORDER
-	//duplicate sbx6, sbx6_for_online, ORDER
 	duplicate sbx7, sbx7_for_online, ORDER
-	
-	
 	
 	//这边的输入检查过了，没有问题x0-x7是对的
 	matrosecxor_ sbx3, sbx5, sby14, ORDER, 1
@@ -504,7 +495,6 @@ sboxonline:
 	matrosecxor_ online_sbx0,  online_sby16, online_sby18, ORDER, 0
 ///////////////////////////////////////////////////////////////////////////////
 	
-
 //															tx         ty          tr tx ty tr的长度为order ，前面的长度为1
 	matrosecandnew_ online_sby12, online_sby15, sby12,sby15,online_sbt2, sband1tr, ORDER + 1, 0,r12,ORDER
 	

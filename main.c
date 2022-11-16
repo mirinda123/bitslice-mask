@@ -8,14 +8,13 @@ int main(void)
 {
 	// test for unprotected AES
 	//sbox_test();
-	AES_CTX ctx = {{0},{0},10};
+	AES_CTX ctx;
 	
 	ctx.num_rounds = 10;
-	//setkey是正确的
 	AES_Setkey(&ctx, key, 16);
 	AES_Encrypt(&ctx, key, dst);
+	
+	//aes是正确的
 	int a = 0;
-	int b = 0;
-	int c = 0;
 	return 1;
 }

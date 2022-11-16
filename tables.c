@@ -1,30 +1,6 @@
 #define ORDER 2
-
 #define RANDOM_LENGTH 1024
 
-//gadget_x就是输入的x^
-unsigned int gadget_x[ORDER] = {0x4632,0xE97A};
-unsigned int gadget_y[ORDER] = {0x2354, 0xAF23};
-//gadget_z存放结果
-unsigned int gadget_z[ORDER]={0};
-unsigned int gadget_x_dot[ORDER]={0};
-unsigned int gadget_y_dot[ORDER]={0};
-
-unsigned int gadget_online_x[1]={0xbd7c};
-unsigned int gadget_online_y[1]={0xDA0F};
-unsigned int gadget_online_z[1]={0};
-
-unsigned int gadget_online_x_dot[1]={0};
-unsigned int gadget_online_y_dot[1]={0};
-
-
-unsigned int matrixRx[ORDER][ORDER]={{0x1245,0x3445},{0x2666,0x2355}};
-unsigned int matrixRy[ORDER][ORDER]= {{0x1675,0x1999},{0x9734,0x3563}};
-unsigned int matrixR[ORDER][ORDER] = {{0x8563,0x8289},{0x9384,0x923D}};
-unsigned int alpha[ORDER]={0xFFFF,0xFFFF};
-unsigned int t_first[1];
-unsigned int t_second[1];
-unsigned int r[ORDER];
 
 //xtest的3各share异或起来是0x1264
 unsigned int sbxtest[ORDER] = {0x4363,0x2325};
@@ -211,101 +187,38 @@ unsigned int sbz15[ORDER]={0};
 unsigned int sbz16[ORDER]={0};
 unsigned int sbz17[ORDER]={0};
 
-unsigned int sband1ty12[ORDER];
-unsigned int sband1ty15[ORDER];
+
 unsigned int sband1tr[ORDER];
-unsigned int sband2ty3[ORDER];
-unsigned int sband2ty6[ORDER];
 unsigned int sband2tr[ORDER];
-unsigned int sband3ty4[ORDER];
-unsigned int sband3tx7[ORDER];
 unsigned int sband3tr[ORDER];
-unsigned int sband4ty13[ORDER];
-unsigned int sband4ty16[ORDER];
 unsigned int sband4tr[ORDER];
-unsigned int sband5ty5[ORDER];
-unsigned int sband5ty1[ORDER];
 unsigned int sband5tr[ORDER];
-unsigned int sband6ty2[ORDER];
-unsigned int sband6ty7[ORDER];
 unsigned int sband6tr[ORDER];
-unsigned int sband7ty9[ORDER];
-unsigned int sband7ty11[ORDER];
 unsigned int sband7tr[ORDER];
-unsigned int sband8ty14[ORDER];
-unsigned int sband8ty17[ORDER];
 unsigned int sband8tr[ORDER];
-unsigned int sband9ty8[ORDER];
-unsigned int sband9ty10[ORDER];
 unsigned int sband9tr[ORDER];
-unsigned int sband10tt21[ORDER];
-unsigned int sband10tt23[ORDER];
 unsigned int sband10tr[ORDER];
-unsigned int sband11tt25[ORDER];
-unsigned int sband11tt27[ORDER];
 unsigned int sband11tr[ORDER];
-unsigned int sband12tt31[ORDER];
-unsigned int sband12tt30[ORDER];
 unsigned int sband12tr[ORDER];
-unsigned int sband13tt29[ORDER];
-unsigned int sband13ty2[ORDER];
 unsigned int sband13tr[ORDER];
-unsigned int sband14tt24[ORDER];
-unsigned int sband14tt35[ORDER];
 unsigned int sband14tr[ORDER];
-unsigned int sband15tt29[ORDER];
-unsigned int sband15tt38[ORDER];
 unsigned int sband15tr[ORDER];
-unsigned int sband16tt29[ORDER];
-unsigned int sband16ty7[ORDER];
 unsigned int sband16tr[ORDER];
-unsigned int sband17tt44[ORDER];
-unsigned int sband17ty15[ORDER];
 unsigned int sband17tr[ORDER];
-unsigned int sband18tt37[ORDER];
-unsigned int sband18ty6[ORDER];
 unsigned int sband18tr[ORDER];
-unsigned int sband19tt33[ORDER];
-unsigned int sband19tx7[ORDER];
 unsigned int sband19tr[ORDER];
-unsigned int sband20tt43[ORDER];
-unsigned int sband20ty16[ORDER];
 unsigned int sband20tr[ORDER];
-unsigned int sband21tt40[ORDER];
-unsigned int sband21ty1[ORDER];
 unsigned int sband21tr[ORDER];
-unsigned int sband22tt42[ORDER];
-unsigned int sband22ty11[ORDER];
 unsigned int sband22tr[ORDER];
-unsigned int sband23tt45[ORDER];
-unsigned int sband23ty17[ORDER];
 unsigned int sband23tr[ORDER];
-unsigned int sband24tt41[ORDER];
-unsigned int sband24ty10[ORDER];
 unsigned int sband24tr[ORDER];
-unsigned int sband25tt44[ORDER];
-unsigned int sband25ty12[ORDER];
 unsigned int sband25tr[ORDER];
-unsigned int sband26tt37[ORDER];
-unsigned int sband26ty3[ORDER];
 unsigned int sband26tr[ORDER];
-unsigned int sband27tt33[ORDER];
-unsigned int sband27ty4[ORDER];
 unsigned int sband27tr[ORDER];
-unsigned int sband28tt43[ORDER];
-unsigned int sband28ty13[ORDER];
 unsigned int sband28tr[ORDER];
-unsigned int sband29tt40[ORDER];
-unsigned int sband29ty5[ORDER];
 unsigned int sband29tr[ORDER];
-unsigned int sband30tt42[ORDER];
-unsigned int sband30ty9[ORDER];
 unsigned int sband30tr[ORDER];
-unsigned int sband31tt45[ORDER];
-unsigned int sband31ty14[ORDER];
 unsigned int sband31tr[ORDER];
-unsigned int sband32tt41[ORDER];
-unsigned int sband32ty8[ORDER];
 unsigned int sband32tr[ORDER];
 
 unsigned int online_sbx0[1]={0x9ba8};
@@ -440,276 +353,6 @@ unsigned int online_sbz16[1]={0};
 unsigned int online_sbz17[1]={0};
 
 
-
-
-
-
-unsigned int after_mixcolumn0[ORDER];
-unsigned int after_mixcolumn1[ORDER];
-unsigned int after_mixcolumn2[ORDER];
-unsigned int after_mixcolumn3[ORDER];
-unsigned int after_mixcolumn4[ORDER];
-unsigned int after_mixcolumn5[ORDER];
-unsigned int after_mixcolumn6[ORDER];
-unsigned int after_mixcolumn7[ORDER];
-
-
-unsigned int after_shiftrows0[ORDER];
-unsigned int after_shiftrows1[ORDER];
-unsigned int after_shiftrows2[ORDER];
-unsigned int after_shiftrows3[ORDER];
-unsigned int after_shiftrows4[ORDER];
-unsigned int after_shiftrows5[ORDER];
-unsigned int after_shiftrows6[ORDER];
-unsigned int after_shiftrows7[ORDER];
-
-
-unsigned int online_after_shiftrows0[1];
-unsigned int online_after_shiftrows1[1];
-unsigned int online_after_shiftrows2[1];
-unsigned int online_after_shiftrows3[1];
-unsigned int online_after_shiftrows4[1];
-unsigned int online_after_shiftrows5[1];
-unsigned int online_after_shiftrows6[1];
-unsigned int online_after_shiftrows7[1];
-
-unsigned int online_after_mixcolumn0[1];
-unsigned int online_after_mixcolumn1[1];
-unsigned int online_after_mixcolumn2[1];
-unsigned int online_after_mixcolumn3[1];
-unsigned int online_after_mixcolumn4[1];
-unsigned int online_after_mixcolumn5[1];
-unsigned int online_after_mixcolumn6[1];
-unsigned int online_after_mixcolumn7[1];
-
-//↓PRESENT部分
-
-unsigned int PRESENT_sbx0[ORDER]={15465};
-unsigned int PRESENT_sbx1[ORDER]={1345};
-unsigned int PRESENT_sbx2[ORDER]={12484};
-unsigned int PRESENT_sbx3[ORDER]={12315};
-
-unsigned int PRESENT_sby0[ORDER]={0};
-unsigned int PRESENT_sby1[ORDER]={0};
-unsigned int PRESENT_sby2[ORDER]={0};
-unsigned int PRESENT_sby3[ORDER]={0};
-
-unsigned int PRESENT_sbt1[ORDER]={0};
-unsigned int PRESENT_sbt2[ORDER]={0};
-unsigned int PRESENT_sbt3[ORDER]={0};
-unsigned int PRESENT_sbt4[ORDER]={0};
-unsigned int PRESENT_sbt5[ORDER]={0};
-unsigned int PRESENT_sbt6[ORDER]={0};
-unsigned int PRESENT_sbt7[ORDER]={0};
-unsigned int PRESENT_sbt8[ORDER]={0};
-unsigned int PRESENT_sbt9[ORDER]={0};
-
-
-unsigned int PRESENT_sband1tx1[ORDER];
-unsigned int PRESENT_sband1tt1[ORDER];
-unsigned int PRESENT_sband1tr[ORDER];
-unsigned int PRESENT_sband2tt1[ORDER];
-unsigned int PRESENT_sband2tt3[ORDER];
-unsigned int PRESENT_sband2tr[ORDER];
-unsigned int PRESENT_sband3tx3[ORDER];
-unsigned int PRESENT_sband3tt5[ORDER];
-unsigned int PRESENT_sband3tr[ORDER];
-unsigned int PRESENT_sband4tt7[ORDER];
-unsigned int PRESENT_sband4tt6[ORDER];
-unsigned int PRESENT_sband4tr[ORDER];
-
-unsigned int PRESENT_online_sbx0[1]={4551};
-unsigned int PRESENT_online_sbx1[1]={23878};
-unsigned int PRESENT_online_sbx2[1]={1879};
-unsigned int PRESENT_online_sbx3[1]={911};
-
-unsigned int PRESENT_online_sby0[1]={0};
-unsigned int PRESENT_online_sby1[1]={0};
-unsigned int PRESENT_online_sby2[1]={0};
-unsigned int PRESENT_online_sby3[1]={0};
-
-
-unsigned int PRESENT_online_sbt1[1]={0};
-unsigned int PRESENT_online_sbt2[1]={0};
-unsigned int PRESENT_online_sbt3[1]={0};
-unsigned int PRESENT_online_sbt4[1]={0};
-unsigned int PRESENT_online_sbt5[1]={0};
-unsigned int PRESENT_online_sbt6[1]={0};
-unsigned int PRESENT_online_sbt7[1]={0};
-unsigned int PRESENT_online_sbt8[1]={0};
-unsigned int PRESENT_online_sbt9[1]={0};
-
-
-unsigned int PRESENT_after_linear0[ORDER];
-unsigned int PRESENT_after_linear1[ORDER];
-unsigned int PRESENT_after_linear2[ORDER];
-unsigned int PRESENT_after_linear3[ORDER];
-
-unsigned int PRESENT_online_after_linear0[1];
-unsigned int PRESENT_online_after_linear1[1];
-unsigned int PRESENT_online_after_linear2[1];
-unsigned int PRESENT_online_after_linear3[1];
-
-//↑PRESENT部分
-//↓SKINNY部分
-//沿用上面的表述，输出用y表示
-//中间变量用m表示
-
-// x0 = 1
-// x1 = 1
-// x2 = 0
-// x3 = 1
-// def sboxfunc(x0,x1,x2,x3):
-//     m0 = (x0 | x1) ^ 0b1
-//     m1 = (x1 | x2) ^ 0b1
-//     y0 = m0 ^ x3
-//     m2 = (x2 | y0) ^ 0b1
-//     y1 = x0 ^ m1
-//     m3 =  (y0 | y1) ^ 0b1
-//     y2 = x1 ^ m2
-//     y3 = x2 ^ m3
-//     return y0,y1,y2,y3
-
-unsigned int SKINNY_key0[ORDER]={0};
-unsigned int SKINNY_key1[ORDER]={0};
-unsigned int SKINNY_key2[ORDER]={0};
-unsigned int SKINNY_key3[ORDER]={0};
-
-unsigned int SKINNY_sbx0[ORDER]={36441};
-unsigned int SKINNY_sbx1[ORDER]={8945};
-unsigned int SKINNY_sbx2[ORDER]={39735};
-unsigned int SKINNY_sbx3[ORDER]={315};
-
-unsigned int SKINNY_sby0[ORDER]={0};
-unsigned int SKINNY_sby1[ORDER]={0};
-unsigned int SKINNY_sby2[ORDER]={0};
-unsigned int SKINNY_sby3[ORDER]={0};
-
-unsigned int SKINNY_sbm0[ORDER]={0};
-unsigned int SKINNY_sbm1[ORDER]={0};
-unsigned int SKINNY_sbm2[ORDER]={0};
-unsigned int SKINNY_sbm3[ORDER]={0};
-
-// def sboxfunc(x0,x1,x2,x3):
-//     m0 = (x0 | x1) ^ 0xFFFF
-//     m1 = (x1 | x2) ^ 0xFFFF
-//     y0 = m0 ^ x3
-//     m2 = (x2 | y0) ^ 0xFFFF
-//     y1 = x0 ^ m1
-//     m3 =  (y0 | y1) ^ 0xFFFF
-//     y2 = x1 ^ m2
-//     y3 = x2 ^ m3
-//     return y0,y1,y2,y3
-unsigned int SKINNY_sband1tx0[ORDER];
-unsigned int SKINNY_sband1tx1[ORDER];
-unsigned int SKINNY_sband1tr[ORDER];
-unsigned int SKINNY_sband2tx1[ORDER];
-unsigned int SKINNY_sband2tx2[ORDER];
-unsigned int SKINNY_sband2tr[ORDER];
-unsigned int SKINNY_sband3tx2[ORDER];
-unsigned int SKINNY_sband3ty0[ORDER];
-unsigned int SKINNY_sband3tr[ORDER];
-unsigned int SKINNY_sband4ty0[ORDER];
-unsigned int SKINNY_sband4ty1[ORDER];
-unsigned int SKINNY_sband4tr[ORDER];
-
-unsigned int SKINNY_online_key0[1]={0};
-unsigned int SKINNY_online_key1[1]={0};
-unsigned int SKINNY_online_key2[1]={0};
-unsigned int SKINNY_online_key3[1]={0};
-
-unsigned int SKINNY_online_sbx0[1]={4551};
-unsigned int SKINNY_online_sbx1[1]={23878};
-unsigned int SKINNY_online_sbx2[1]={1879};
-unsigned int SKINNY_online_sbx3[1]={911};
-
-unsigned int SKINNY_online_sbm0[1]={0};
-unsigned int SKINNY_online_sbm1[1]={0};
-unsigned int SKINNY_online_sbm2[1]={0};
-unsigned int SKINNY_online_sbm3[1]={0};
-
-
-unsigned int SKINNY_online_sby0[1]={0};
-unsigned int SKINNY_online_sby1[1]={0};
-unsigned int SKINNY_online_sby2[1]={0};
-unsigned int SKINNY_online_sby3[1]={0};
-
-unsigned int SKINNY_online_sbt1[1]={0};
-unsigned int SKINNY_online_sbt2[1]={0};
-unsigned int SKINNY_online_sbt3[1]={0};
-unsigned int SKINNY_online_sbt4[1]={0};
-unsigned int SKINNY_online_sbt5[1]={0};
-unsigned int SKINNY_online_sbt6[1]={0};
-unsigned int SKINNY_online_sbt7[1]={0};
-unsigned int SKINNY_online_sbt8[1]={0};
-unsigned int SKINNY_online_sbt9[1]={0};
-
-
-unsigned int SKINNY_after_linear0[ORDER];
-unsigned int SKINNY_after_linear1[ORDER];
-unsigned int SKINNY_after_linear2[ORDER];
-unsigned int SKINNY_after_linear3[ORDER];
-
-unsigned int SKINNY_online_after_linear0[1];
-unsigned int SKINNY_online_after_linear1[1];
-unsigned int SKINNY_online_after_linear2[1];
-unsigned int SKINNY_online_after_linear3[1];
-
-//round在论文中是从1开始数的，这里从0开始数
-
-unsigned char SKINNY_ART_constants_array[62] = {0x01,0x03,0x07,0x0F,0x1F,0x3E,0x3D,0x3B,0x37,0x2F,0x1E,0x3C,0x39,0x33,0x27,0x0E,0x1D,0x3A,0x35,0x2B,0x16,0x2C,0x18,0x30,0x21,0x02,0x05,0x0B,0x17,0x2E,0x1C,0x38,0x31,0x23,0x06,0x0D,0x1B,0x36,0x2D,0x1A,0x34,0x29,0x12,0x24,0x08,0x11,0x22,0x04,0x09,0x13,0x26,0x0C,0x19,0x32,0x25,0x0A,0x15,0x2A,0x14,0x28,0x10,0x20};
-
-unsigned int SKINNY_after_shiftrows_sby0[ORDER];
-unsigned int SKINNY_after_shiftrows_sby1[ORDER];
-unsigned int SKINNY_after_shiftrows_sby2[ORDER];
-unsigned int SKINNY_after_shiftrows_sby3[ORDER];
-	
-	
-unsigned int SKINNY_online_after_shiftrows_sby0[1];
-unsigned int SKINNY_online_after_shiftrows_sby1[1];
-unsigned int SKINNY_online_after_shiftrows_sby2[1];
-unsigned int SKINNY_online_after_shiftrows_sby3[1];
-	
-	
-unsigned int SKINNY_after_mixcolumns_sby0[ORDER];
-unsigned int SKINNY_after_mixcolumns_sby1[ORDER];
-unsigned int SKINNY_after_mixcolumns_sby2[ORDER];
-unsigned int SKINNY_after_mixcolumns_sby3[ORDER];
-	
-	
-unsigned int SKINNY_online_after_mixcolumns_sby0[1];
-unsigned int SKINNY_online_after_mixcolumns_sby1[1];
-unsigned int SKINNY_online_after_mixcolumns_sby2[1];
-unsigned int SKINNY_online_after_mixcolumns_sby3[1];
-//↑skinny部分
-
-
-
-extern unsigned int gadget_x[ORDER];
-extern unsigned int gadget_y[ORDER];
-extern unsigned int gadget_z[ORDER];
-extern unsigned int gadget_x_dot[ORDER];
-extern unsigned int gadget_y_dot[ORDER];
-
-extern unsigned int gadget_online_x[1];
-extern unsigned int gadget_online_y[1];
-extern unsigned int gadget_online_z[1];
-extern unsigned int gadget_online_x_dot[1];
-extern unsigned int gadget_online_y_dot[1];
-
-
-extern unsigned int matrixRx[ORDER][ORDER];
-extern unsigned int matrixRy[ORDER][ORDER];
-extern unsigned int matrixR[ORDER][ORDER];
-
-extern unsigned int alpha[ORDER];
-extern unsigned int t_first[1];
-extern unsigned int t_second[1];
-extern unsigned int r[ORDER];
-
-
-
-extern unsigned int test_random_table[1];
 extern unsigned int sbx0[ORDER];
 extern unsigned int sbx1[ORDER];
 extern unsigned int sbx2[ORDER];
@@ -840,101 +483,37 @@ extern unsigned int sbz15[ORDER];
 extern unsigned int sbz16[ORDER];
 extern unsigned int sbz17[ORDER];
 
-extern unsigned int sband1ty12[ORDER];
-extern unsigned int sband1ty15[ORDER];
 extern unsigned int sband1tr[ORDER];
-extern unsigned int sband2ty3[ORDER];
-extern unsigned int sband2ty6[ORDER];
 extern unsigned int sband2tr[ORDER];
-extern unsigned int sband3ty4[ORDER];
-extern unsigned int sband3tx7[ORDER];
 extern unsigned int sband3tr[ORDER];
-extern unsigned int sband4ty13[ORDER];
-extern unsigned int sband4ty16[ORDER];
 extern unsigned int sband4tr[ORDER];
-extern unsigned int sband5ty5[ORDER];
-extern unsigned int sband5ty1[ORDER];
 extern unsigned int sband5tr[ORDER];
-extern unsigned int sband6ty2[ORDER];
-extern unsigned int sband6ty7[ORDER];
 extern unsigned int sband6tr[ORDER];
-extern unsigned int sband7ty9[ORDER];
-extern unsigned int sband7ty11[ORDER];
 extern unsigned int sband7tr[ORDER];
-extern unsigned int sband8ty14[ORDER];
-extern unsigned int sband8ty17[ORDER];
 extern unsigned int sband8tr[ORDER];
-extern unsigned int sband9ty8[ORDER];
-extern unsigned int sband9ty10[ORDER];
 extern unsigned int sband9tr[ORDER];
-extern unsigned int sband10tt21[ORDER];
-extern unsigned int sband10tt23[ORDER];
 extern unsigned int sband10tr[ORDER];
-extern unsigned int sband11tt25[ORDER];
-extern unsigned int sband11tt27[ORDER];
 extern unsigned int sband11tr[ORDER];
-extern unsigned int sband12tt31[ORDER];
-extern unsigned int sband12tt30[ORDER];
 extern unsigned int sband12tr[ORDER];
-extern unsigned int sband13tt29[ORDER];
-extern unsigned int sband13ty2[ORDER];
 extern unsigned int sband13tr[ORDER];
-extern unsigned int sband14tt24[ORDER];
-extern unsigned int sband14tt35[ORDER];
 extern unsigned int sband14tr[ORDER];
-extern unsigned int sband15tt29[ORDER];
-extern unsigned int sband15tt38[ORDER];
 extern unsigned int sband15tr[ORDER];
-extern unsigned int sband16tt29[ORDER];
-extern unsigned int sband16ty7[ORDER];
 extern unsigned int sband16tr[ORDER];
-extern unsigned int sband17tt44[ORDER];
-extern unsigned int sband17ty15[ORDER];
 extern unsigned int sband17tr[ORDER];
-extern unsigned int sband18tt37[ORDER];
-extern unsigned int sband18ty6[ORDER];
 extern unsigned int sband18tr[ORDER];
-extern unsigned int sband19tt33[ORDER];
-extern unsigned int sband19tx7[ORDER];
 extern unsigned int sband19tr[ORDER];
-extern unsigned int sband20tt43[ORDER];
-extern unsigned int sband20ty16[ORDER];
 extern unsigned int sband20tr[ORDER];
-extern unsigned int sband21tt40[ORDER];
-extern unsigned int sband21ty1[ORDER];
 extern unsigned int sband21tr[ORDER];
-extern unsigned int sband22tt42[ORDER];
-extern unsigned int sband22ty11[ORDER];
 extern unsigned int sband22tr[ORDER];
-extern unsigned int sband23tt45[ORDER];
-extern unsigned int sband23ty17[ORDER];
 extern unsigned int sband23tr[ORDER];
-extern unsigned int sband24tt41[ORDER];
-extern unsigned int sband24ty10[ORDER];
 extern unsigned int sband24tr[ORDER];
-extern unsigned int sband25tt44[ORDER];
-extern unsigned int sband25ty12[ORDER];
 extern unsigned int sband25tr[ORDER];
-extern unsigned int sband26tt37[ORDER];
-extern unsigned int sband26ty3[ORDER];
 extern unsigned int sband26tr[ORDER];
-extern unsigned int sband27tt33[ORDER];
-extern unsigned int sband27ty4[ORDER];
 extern unsigned int sband27tr[ORDER];
-extern unsigned int sband28tt43[ORDER];
-extern unsigned int sband28ty13[ORDER];
 extern unsigned int sband28tr[ORDER];
-extern unsigned int sband29tt40[ORDER];
-extern unsigned int sband29ty5[ORDER];
 extern unsigned int sband29tr[ORDER];
-extern unsigned int sband30tt42[ORDER];
-extern unsigned int sband30ty9[ORDER];
 extern unsigned int sband30tr[ORDER];
-extern unsigned int sband31tt45[ORDER];
-extern unsigned int sband31ty14[ORDER];
 extern unsigned int sband31tr[ORDER];
-extern unsigned int sband32tt41[ORDER];
-extern unsigned int sband32ty8[ORDER];
 extern unsigned int sband32tr[ORDER];
 
 
@@ -1040,8 +619,8 @@ extern unsigned int online_sbt65[1];
 extern unsigned int online_sbt66[1];
 extern unsigned int online_sbt67[1];
 
-extern unsigned int online_sbs0[1];;
-extern unsigned int online_sbs1[1];;
+extern unsigned int online_sbs0[1];
+extern unsigned int online_sbs1[1];
 extern unsigned int online_sbs2[1];
 extern unsigned int online_sbs3[1];
 extern unsigned int online_sbs4[1];
@@ -1067,114 +646,3 @@ extern unsigned int online_sbz14[1];
 extern unsigned int online_sbz15[1];
 extern unsigned int online_sbz16[1];
 extern unsigned int online_sbz17[1];
-
-
-
-extern unsigned int after_mixcolumn0[ORDER];
-extern unsigned int after_mixcolumn1[ORDER];
-extern unsigned int after_mixcolumn2[ORDER];
-extern unsigned int after_mixcolumn3[ORDER];
-extern unsigned int after_mixcolumn4[ORDER];
-extern unsigned int after_mixcolumn5[ORDER];
-extern unsigned int after_mixcolumn6[ORDER];
-extern unsigned int after_mixcolumn7[ORDER];
-
-extern unsigned int after_shiftrows0[ORDER];
-extern unsigned int after_shiftrows1[ORDER];
-extern unsigned int after_shiftrows2[ORDER];
-extern unsigned int after_shiftrows3[ORDER];
-extern unsigned int after_shiftrows4[ORDER];
-extern unsigned int after_shiftrows5[ORDER];
-extern unsigned int after_shiftrows6[ORDER];
-extern unsigned int after_shiftrows7[ORDER];
-
-extern unsigned int online_after_mixcolumn0[1];
-extern unsigned int online_after_mixcolumn1[1];
-extern unsigned int online_after_mixcolumn2[1];
-extern unsigned int online_after_mixcolumn3[1];
-extern unsigned int online_after_mixcolumn4[1];
-extern unsigned int online_after_mixcolumn5[1];
-extern unsigned int online_after_mixcolumn6[1];
-extern unsigned int online_after_mixcolumn7[1];
-
-extern unsigned int online_after_shiftrows0[1];
-extern unsigned int online_after_shiftrows1[1];
-extern unsigned int online_after_shiftrows2[1];
-extern unsigned int online_after_shiftrows3[1];
-extern unsigned int online_after_shiftrows4[1];
-extern unsigned int online_after_shiftrows5[1];
-extern unsigned int online_after_shiftrows6[1];
-extern unsigned int online_after_shiftrows7[1];
-
-
-
-
-
-
-
-extern unsigned int PRESENT_sbx0[ORDER];
-extern unsigned int PRESENT_sbx1[ORDER];
-extern unsigned int PRESENT_sbx2[ORDER];
-extern unsigned int PRESENT_sbx3[ORDER];
-
-extern unsigned int PRESENT_sby0[ORDER];
-extern unsigned int PRESENT_sby1[ORDER];
-extern unsigned int PRESENT_sby2[ORDER];
-extern unsigned int PRESENT_sby3[ORDER];
-
-extern unsigned int PRESENT_sbt1[ORDER];
-extern unsigned int PRESENT_sbt2[ORDER];
-extern unsigned int PRESENT_sbt3[ORDER];
-extern unsigned int PRESENT_sbt4[ORDER];
-extern unsigned int PRESENT_sbt5[ORDER];
-extern unsigned int PRESENT_sbt6[ORDER];
-extern unsigned int PRESENT_sbt7[ORDER];
-extern unsigned int PRESENT_sbt8[ORDER];
-extern unsigned int PRESENT_sbt9[ORDER];
-
-
-extern unsigned int PRESENT_sband1tx1[ORDER];
-extern unsigned int PRESENT_sband1tt1[ORDER];
-extern unsigned int PRESENT_sband1tr[ORDER];
-extern unsigned int PRESENT_sband2tt1[ORDER];
-extern unsigned int PRESENT_sband2tt3[ORDER];
-extern unsigned int PRESENT_sband2tr[ORDER];
-extern unsigned int PRESENT_sband3tx3[ORDER];
-extern unsigned int PRESENT_sband3tt5[ORDER];
-extern unsigned int PRESENT_sband3tr[ORDER];
-extern unsigned int PRESENT_sband4tt7[ORDER];
-extern unsigned int PRESENT_sband4tt6[ORDER];
-extern unsigned int PRESENT_sband4tr[ORDER];
-
-extern unsigned int PRESENT_online_sbx0[1];
-extern unsigned int PRESENT_online_sbx1[1];
-extern unsigned int PRESENT_online_sbx2[1];
-extern unsigned int PRESENT_online_sbx3[1];
-
-extern unsigned int PRESENT_online_sby0[1];
-extern unsigned int PRESENT_online_sby1[1];
-extern unsigned int PRESENT_online_sby2[1];
-extern unsigned int PRESENT_online_sby3[1];
-
-
-extern unsigned int PRESENT_online_sbt1[1];
-extern unsigned int PRESENT_online_sbt2[1];
-extern unsigned int PRESENT_online_sbt3[1];
-extern unsigned int PRESENT_online_sbt4[1];
-extern unsigned int PRESENT_online_sbt5[1];
-extern unsigned int PRESENT_online_sbt6[1];
-extern unsigned int PRESENT_online_sbt7[1];
-extern unsigned int PRESENT_online_sbt8[1];
-extern unsigned int PRESENT_online_sbt9[1];
-
-
-extern unsigned int PRESENT_after_linear0[ORDER];
-extern unsigned int PRESENT_after_linear1[ORDER];
-extern unsigned int PRESENT_after_linear2[ORDER];
-extern unsigned int PRESENT_after_linear3[ORDER];
-
-extern unsigned int PRESENT_online_after_linear0[1];
-extern unsigned int PRESENT_online_after_linear1[1];
-extern unsigned int PRESENT_online_after_linear2[1];
-extern unsigned int PRESENT_online_after_linear3[1];
-
