@@ -1,3 +1,5 @@
+#define ORDER 2
+
 /******************************************************************************
 * Constant-time implementation of the SKINNY tweakable block ciphers.
 *
@@ -162,10 +164,19 @@ void add_tweakey(u32* state, u32* tk) {
 //看这个
 void skinny128_128_encrypt(u8* ctext, const u8* ptext, const tweakey tk, 
 					u8* ctext_bis, const u8* ptext_bis, const tweakey tk_bis) {
-	u32 state[8];
+	//u32 state[8];
+	u32 state_0[ORDER];
+	u32 state_1[ORDER];
+	u32 state_2[ORDER];
+	u32 state_3[ORDER];
+	u32 state_4[ORDER];
+	u32 state_5[ORDER];
+	u32 state_6[ORDER];
+	u32 state_7[ORDER];
 	u32 rtk[8*SKINNY128_128_ROUNDS];
 	precompute_tk(rtk, tk, tk_bis, SKINNY128_128_ROUNDS);
-	packing(state, ptext, ptext_bis);
+	//packing(state, ptext, ptext_bis);
+	packing_bitslice(state_0,state_1,state_2,state_3,state_4,state_5,state_6,state_7,ptext, ptext_bis);
 	QUADRUPLE_ROUND(state, rtk);
 	QUADRUPLE_ROUND(state, rtk+32);
 	QUADRUPLE_ROUND(state, rtk+64);
@@ -185,6 +196,8 @@ void skinny128_128_encrypt(u8* ctext, const u8* ptext, const tweakey tk,
 void skinny128_256_encrypt(u8* ctext, const u8* ptext, const tweakey tk, 
 					u8* ctext_bis, const u8* ptext_bis, const tweakey tk_bis) {
 	u32 state[8];
+	
+		
 	u32 rtk[8*SKINNY128_256_ROUNDS];
 	precompute_tk(rtk, tk, tk_bis, SKINNY128_256_ROUNDS);
 	packing(state, ptext, ptext_bis);

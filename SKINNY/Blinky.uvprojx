@@ -385,16 +385,6 @@
           <GroupName>Source Files</GroupName>
           <Files>
             <File>
-              <FileName>aes.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\aes.c</FilePath>
-            </File>
-            <File>
-              <FileName>aes.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\aes.h</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
@@ -408,6 +398,26 @@
               <FileName>tables.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\tables.c</FilePath>
+            </File>
+            <File>
+              <FileName>skinny128.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\skinny128.c</FilePath>
+            </File>
+            <File>
+              <FileName>skinny128.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\skinny128.h</FilePath>
+            </File>
+            <File>
+              <FileName>tk_schedule.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\tk_schedule.c</FilePath>
+            </File>
+            <File>
+              <FileName>tk_schedule.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\tk_schedule.h</FilePath>
             </File>
           </Files>
         </Group>

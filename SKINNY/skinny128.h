@@ -21,8 +21,15 @@ void skinny128_384_decrypt(u8* ctext, const u8* ptext, const tweakey tk,
 #define SKINNY128_384_ROUNDS	56
 
 #define ROR(x,y) 		(((x) >> (y)) | ((x) << (32 - (y))))
+#define QUADRUPLE_ROUND_precompute(state, tk)({	\
+	sboxprecom_0();
+	add_tweakey(state, tk);
+	mixcolumns_0(state);
+})
 
-#define QUADRUPLE_ROUND(state, tk) ({					\
+#define QUADRUPLE_ROUND_online(state, tk)({	\
+})
+#define QUADRUPLE_ROUND_old(state, tk) ({					\
 	state[3] ^= (state[0] | state[1]);					\
 	state[7] ^= (state[4] | state[5]);					\
 	state[1] ^= (state[6] | state[5]);					\
